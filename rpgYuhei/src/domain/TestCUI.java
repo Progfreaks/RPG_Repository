@@ -8,31 +8,29 @@ import valueobject.events.StartEvent;
 
 public class TestCUI {
 
-	static Character p01 = null;
-	static Character e01 = null;
+	static Character player = null;
+	static Character enemy = null;
+	static CharacterManager cm ;
 
 	
 
 	public static void main(String[] args) {
 
 		 
+		cm = new CharacterManager();
 		StartEvent sEvent = new StartEvent();
 		sEvent.process();
 		
-		p01 = PlayerArray.getPlayer(0);
-
-		e01 = new Zombie("Zombie", 40);
-        
-		p01.setIsPlayer(true);		
-        e01.setIsPlayer(false);		
-
 		
-		BattleRoom battleRoom = new BattleRoom();
+		player = PlayerArray.getPlayer(0);
+		enemy = cm.createCharacter(CharacterEnum.Zombie);
 		
-		battleRoom.addPlayer(p01);
-		battleRoom.addEnemy(e01);
+		BattleManager bm = new BattleManager();
 		
-		battleRoom.startBattle();
+		bm.addPlayer(player);
+		bm.addEnemy(enemy);
+		
+		bm.startBattle();
 
 
       

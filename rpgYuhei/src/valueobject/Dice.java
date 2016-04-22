@@ -39,7 +39,7 @@ public final class Dice {
 		   int damage02 = IO.validDiceNumMessage(diceNum02);
 		   if(damage02 == 0) return 0;
 		   		    
-		   totalDamage 		=  IO.totalDamageMessage(damage01, damage02);			
+		   totalDamage 		=  IO.totalDamageMessage(damage01, damage02,ch);			
 
 		   		   
 		   		   

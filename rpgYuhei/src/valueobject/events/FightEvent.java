@@ -1,28 +1,31 @@
 package valueobject.events;
 
-import domain.BattleRoom;
+import domain.BattleManager;
+import domain.CharacterManager;
 import valueobject.PlayerArray;
 import valueobject.character.Character;
-import valueobject.character.Warrior;
-import valueobject.character.Zombie;
+import valueobject.character.CharacterEnum;
+
 
 public class FightEvent extends GameEvent {
-	Character p01;
+	
+	Character player;
+	Character enemy;
+	CharacterManager cm;
 	
 	@Override
 	public void process() {
 
-		//p01 = PlayerArray.list.get(0);//Bekommt ein Spieler vom PlayerArray 
-		p01 = new Warrior("Held", 100);
+		player = PlayerArray.getPlayer(0);
 
-		Zombie z01 = new Zombie("Zombie", 40);
-	    z01.setIsPlayer(false);		
-
+	    cm = new CharacterManager();
 		
-		BattleRoom battleRoom = new BattleRoom();
+		Character enemy = cm.createCharacter(CharacterEnum.Zombie);
 		
-		battleRoom.addPlayer(p01);
-		battleRoom.addEnemy(z01);
+		BattleManager battleRoom = new BattleManager();
+		
+		battleRoom.addPlayer(player);
+		battleRoom.addEnemy(enemy);
 		battleRoom.startBattle();
 	
 	}

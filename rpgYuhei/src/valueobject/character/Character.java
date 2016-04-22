@@ -2,6 +2,7 @@ package valueobject.character;
 
 import valueobject.Dice;
 import valueobject.IO;
+import valueobject.character.Skill.SkillEnum;
 
 
 
@@ -23,18 +24,19 @@ public  class Character{
 	
 	private int manaPoint;
 	
-	private int whichCharacter;
+	private SkillEnum[] skills;
 	
 	
-	public  Character(final String name,final int life) {
+	public  Character(final String name,final int life,final boolean isPlayer,final SkillEnum[] skills) {
 		
 		this.name = name;
 		this.life = life;
 		this.level = 1;
 		this.exPoint = 0;
 		this.isAlive = true;
-		this.isPlayer = true;
+		this.isPlayer = isPlayer;
 		this.manaPoint = 36;
+		this.skills = skills;
 		
 		maxLife = life;
 	}
@@ -112,6 +114,10 @@ public  class Character{
 	
 	public int getMP(){
 		return manaPoint;
+	}
+	
+	public SkillEnum[] getSkills(){
+		return skills;
 	}
 
 }

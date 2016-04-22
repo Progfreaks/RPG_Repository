@@ -4,7 +4,6 @@ import valueobject.character.Character;
 import java.io.*;
 
 import valueobject.IO;
-import valueobject.character.Warrior;
 
 import java.util.Random;
 
@@ -17,7 +16,7 @@ public class GameCycle {
 	private int rounds;
 	
 	public void newGame(){
-		setUp();
+		//setUp();
 		map = new Maprender();
 		
 	}
@@ -28,7 +27,7 @@ public class GameCycle {
     	return this.endIndicator;
     }
 	
-    private void setUp(){
+    /**private void setUp(){
 		System.out.println("Charakter auswaehlen");
 		System.out.println(" 1 : Held \n 2 : Magier \n 3 : Kobold ");
 
@@ -46,7 +45,7 @@ public class GameCycle {
     
      }
 	
-	}
+	}**/
     public void gameCycle(){
     	
     }

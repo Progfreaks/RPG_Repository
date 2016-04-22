@@ -7,8 +7,12 @@ import valueobject.character.Character;
 
 
 
-
-public class BattleRoom {
+/**
+ * Klasse fuer die Verwaltung des Kampfs.
+ * @author YOU_HEY
+ *
+ */
+public class BattleManager {
 	
 	private Vector<Character> players;
 	private Vector<Character> enemys;
@@ -18,7 +22,7 @@ public class BattleRoom {
 
 	
 	
-	public BattleRoom(){
+	public BattleManager(){
 		players = new Vector<Character>();
 		enemys = new Vector<Character>();
 	}
@@ -40,6 +44,9 @@ public class BattleRoom {
 	}
 	
 	
+	/**
+	 * Startet den Kampf.
+	 */
 	public void startBattle(){
 		
 		

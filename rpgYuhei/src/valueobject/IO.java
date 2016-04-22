@@ -1,9 +1,11 @@
 package valueobject;
 
 import valueobject.character.Character;
-import valueobject.character.Skill;
+import valueobject.character.CharacterEnum;
+import valueobject.character.Skill.SkillEnum;
 
 import java.io.*;
+
 
 
 
@@ -20,6 +22,12 @@ public final class IO {
 	static int count01 = 1;
 	static int count02 = 1;
 	
+	//wird das Mehrfach vom Schaden gespeichert.
+	static double multi = 1;
+	
+	//	//wird der Name der Faehigkeit gespeichert.
+
+	static String skillName ;
 	
 	/**
 	 * Gibt die Konsole-Eingabe zurück.
@@ -59,40 +67,70 @@ public final class IO {
 	 */
 	public static int selectCommandMessage(final Character ch){
 		
-		print("Kommando auswaehlen\n");
-		print(" 1 : Direkt Angriff (5 MP : Damage*1) \n 2 : Drachen Schlag (10MP : Damage*1.2)"
-				+ "\n 3 : W-Kraft (15MP : Damage*1.5) \n 4 : Aufladen");
 		
+		boolean check = true;
 		int damage = 0;
-		
-		switch (getConsoleInput()) {
-		
-		case "1": checkMP(ch,5) ; damage = subSelectCommand("Direkt Angriff", ch); ch.setMP(-5);break;
-		case "2": checkMP(ch,10) ; damage = subSelectCommand("Drachen Schlag", ch); ch.setMP(-10);break;
-		case "3": checkMP(ch,15) ; damage = subSelectCommand("W-Kraft", ch); ch.setMP(-15);break;
-		case "4": print("Aufladen\n");	ch.setMP(Dice.diceForMP(ch)); break;
-			
 
-	}
+		//solange es genug MP bleibt
+		while(check){
+			
+		print("Kommando auswaehlen\n");
+		
+		int i = 1;
+		SkillEnum[] skills = ch.getSkills() ;
+
+		
+		for(SkillEnum skill : skills){
+			
+			print((i++)+" : "+skill.getSkillName()+" /"+skill.getUseMP()+"MP/Schaden*"+skill.getMulti());
+		}
+		print("4 : Aufladen\n");
+		
+		
+		
+		int command = Integer.parseInt(getConsoleInput());
+		if(command != 4){
+			
+		int useMP = skills[command-1].getUseMP(); 
+
+		 skillName = skills[command-1].getSkillName();
+		
+		//speichert das Mehrfach
+		multi = skills[command-1].getMulti();
+		
+		if(checkMP(ch,useMP)){
+			
+		check = false ; 
+		damage = subSelectCommand(skillName, ch); 
+		ch.setMP(-useMP);
+		
+		}
+		}else{
+			print("Aufladen\n");	ch.setMP(Dice.diceForMP(ch)); 
+			check = false;
+		}
+		
+		}
 		return damage;
 		
 	}
 	
 	/**
-	 * Hilfsmethode fuer selectCommand()
+	 * Hilfsmethode fuer selectCommandMessage()
 	 * @param ch
 	 */
 	public static boolean checkMP(final Character ch,final int usedMP){
+		
 		if(ch.getMP() < usedMP) {
-			print("Keinen MP...\n");
-			selectCommandMessage(ch);
+			
+			print("Keinen MP.....\n");
 			return false;
 		}
 		return true;
 	}
 	
 	/**
-	 * Hilfsmethode von selectCommand()
+	 * Hilfsmethode von selectCommandMessage()
 	 * @param skill
 	 */
 	private static int  subSelectCommand(final String skill,final Character ch){
@@ -166,23 +204,23 @@ public final class IO {
 	        
 	}	
 	
-	public static String chooseCharacterMessage(){
+	public static CharacterEnum chooseCharacterMessage(){
 		
 		print("Willkommen zu unserem Duengeon!!\n"
-				+ "\nCharakter auswaehlen\n"
-				+ "\n1 : Held \n2 : Magier \n3 : Kobold \n");
+				+ "\nCharakter auswaehlen\n");
 		
-		String number = getConsoleInput();
-		switch(number){
-		case "1": print("\nLos geht's mit dem Held!!\n");; break;
-		case "2": print("\nLos geht's mit dem Magier!!\n");; break;
-		case "3": print("\nLos geht's mit dem kobold!!\n");; break;
-
+		int count = 1;
+		for(CharacterEnum ch : CharacterEnum.values()){
+			if(ch.getIsPlayer()) print((count++)+" :"+ch.getName());
 		}
 		
+		int number = Integer.parseInt(getConsoleInput());
+		CharacterEnum character = null;
 		
+		 print("\nLos geht's mit dem "+CharacterEnum.values()[number-1].getName()+"!!\n"); character = CharacterEnum.values()[number-1] ;
 		
-		return number;
+	
+		return character;
 		
 	}
 	
@@ -248,10 +286,12 @@ public final class IO {
 	 * @param d02
 	 * @param d
 	 */
-	public static int totalDamageMessage(final int d01,final int d02){
-		int totalDamage = (d01*d02);
-		print("Der Schaden ist "+ d01+" * "+d02+" = "+totalDamage+"\n");			
-        return totalDamage; 
+	public static int totalDamageMessage(final int d01,final int d02,final Character ch ){
+		double dTotalDamage = ((double)(d01*d02))*multi;
+		int iTotalDamage = (int)dTotalDamage;
+		print("Der Schaden ist ("+ d01+" * "+d02+") * "+multi+" = "+iTotalDamage+"\n");
+		multi = 1.0;
+        return iTotalDamage; 
 	}
 }
 
