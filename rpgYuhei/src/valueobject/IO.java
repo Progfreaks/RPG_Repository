@@ -166,15 +166,18 @@ public final class IO {
 			
             if(num != 0){
 						
-			print(c02.getName()+" kriegt "+num+" Schaden! "+c01.getLife()+"/"+
-			c01.getMaxLife()+" -> "+(c01.getLife()-num)+"/"+
-					c01.getMaxLife()+" (ENTER)\n");
+			System.out.print(c02.getName()+" kriegt "+num+" Schaden! "+c02.getLife()+"/"+
+			c02.getMaxLife()+" -> ");
+			c02.setLife(-num);
+
+			print(c02.getLife()+"/"+
+					c02.getMaxLife()+" (ENTER)\n");
 			getConsoleInput();
 			c02.setLife(-num);
 
 			if(!c02.isAlive()){
-				  System.out.println("You"
-				  		+ " has won!!");
+				  System.out.println("Du"
+				  		+ " hast gewonnen!!");
 				  return;
 			}
                                 	} 
@@ -188,11 +191,13 @@ public final class IO {
 		    print(c02.getName()+" greift an!! (ENTER) > \n");
 		    getConsoleInput();
 			
-			print(c01.getName()+" kriegt "+num+" Schaden! "+c01.getLife()+"/"+
-			c01.getMaxLife()+" -> "+(c01.getLife()-num)+"/"+
+			System.out.print(c01.getName()+" kriegt "+num+" Schaden! "+c01.getLife()+"/"+
+			c01.getMaxLife()+" -> ");
+			c01.setLife(-num);
+
+			print(c01.getLife()+"/"+
 					c01.getMaxLife()+" (ENTER)\n");
 			getConsoleInput();
-			c01.setLife(-num);
 			 }
 			c01.print();
 			print("Naechste Runde (ENTER) > \n");
