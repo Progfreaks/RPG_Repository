@@ -173,7 +173,6 @@ public final class IO {
 			print(c02.getLife()+"/"+
 					c02.getMaxLife()+" (ENTER)\n");
 			getConsoleInput();
-			c02.setLife(-num);
 
 			if(!c02.isAlive()){
 				  System.out.println("Du"
