@@ -18,19 +18,19 @@ public final class Skill {
 			
 			DRIREKT_ANGRIFF("Held","Direkt Angriff",1.0,5),
 			DRACHEN_SCHLAG("Held","Drachen Schlag",1.3,10),
-			W_KRAFT("Held","W-Kraft",1.5,15),
+			W_KRAFT("Held","W-Kraft",2.0,15),
 			FEIER("Magier","Feier",1.0,5),
 			MAECHTIGE_MAGIE("Magier","Maechtige Magie",1.3,10),
-			ABADAKEDABRA("Magier","Abadakedabra",1.5,15),
+			ABADAKEDABRA("Magier","Abadakedabra",2.0,15),
 			HAUEN("Kobold","Hauen",1.0,5),
 			TRETEN("Kobold","Treten",1.3,10),
-			K_ATTACK("Kobold","Kobold Attack",1.5,15),
+			K_ATTACK("Kobold","Kobold Attack",2.0,15),
 			SYURIKEN("Ninja","SYURIKEN",1.0,5),
 			NINJA_ATTACK("Ninja","Ninja Attack",1.3,10),
-			NINJA_POWER("Ninja","Ninja Power",1.5,15),
+			NINJA_POWER("Ninja","Ninja Power",2.0,15),
 			S1("Spiderman","Spider Strike",1.0,5),
 			S2("Spiderman","Web Ball ",1.3,10),
-			S3("Spiderman","Spidey Sence",1.5,15);
+			S3("Spiderman","Spidey Sence",2.0,15);
 
 
 			
