@@ -18,12 +18,14 @@ public class StartExperienceTable extends JFrame{
 
 	public  StartExperienceTable(String pTitle){
 		super(pTitle);
+		//Breite 600, Hoehe 300.
 		setSize(new Dimension(600, 300));
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//Fuegt das ExperiencePanel hinzu.
 		getContentPane().add(new ExperienceTablePanel());
 
-		
+		//Wird sichtbar.
 		setVisible(true);
 	}
 	

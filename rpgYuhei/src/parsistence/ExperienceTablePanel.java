@@ -19,22 +19,25 @@ public class ExperienceTablePanel extends JPanel implements ActionListener {
 	
 	private static final long serialVersionUID = 1220590933554803342L;
 
+	
+	//Eine Liste, damit man das eingegebene Experience sehen kann.
 	public List<JTextField> panelList = new ArrayList<JTextField>();
 	
 	
 	
-	
+	//Konstruktor dieser Klasse.
 	public ExperienceTablePanel(){
 		
+		//Laedet das ExperienceTable-Objekt.
 		ExperienceTable eTable = ExperienceTable.getInstance();
 
+		//Panel fuer die List.
 		JPanel listPanel = new JPanel();
 		listPanel.setLayout(new GridLayout(10, 4));
 
+		//Schreibt den Inhalt vom ExperienceTable ins TextField.
 		for(int i = 1; i <= ExperienceTable.MAX_LEVEL; i++){
 			JTextField textField = new JTextField(10);
-			
-
 			
 			if(eTable.getExperience(i) != 0){
 
@@ -43,9 +46,10 @@ public class ExperienceTablePanel extends JPanel implements ActionListener {
 				textField.setText("0");
 			}
 			
-
+            //Schiebt nach rechts.
 			textField.setHorizontalAlignment(JTextField.RIGHT);
 			
+			//Wenn Level ungerade ist, wird es grau gefaerbt.
 			JLabel label = new JLabel(String.valueOf(i));
 			
 			if(i % 2 == 1){
@@ -53,16 +57,19 @@ public class ExperienceTablePanel extends JPanel implements ActionListener {
 				label.setBackground(Color.LIGHT_GRAY);
 			}
 			
+			//nach rechts.
 			label.setHorizontalAlignment(JLabel.RIGHT);
 			listPanel.add(label);
 			listPanel.add(textField);
 			panelList.add(textField);
 		}
 		
+		//Erstellt ein Save-Button
 		setLayout(new BorderLayout());
 		
-		JButton button = new JButton("Save");
+		JButton button = new JButton("Speichern");
 		
+		//Definiert ein Listner.
 		button.addActionListener(this);
 		
 		add(listPanel,BorderLayout.CENTER);
@@ -70,12 +77,17 @@ public class ExperienceTablePanel extends JPanel implements ActionListener {
 
 	}
 
+	/**
+	 * Wenn den Button geklickt wird, wird es aufgerufen.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		saveFile();
 	}
 	
+	/**
+	 * Die Methode fuer die File-Speichrung.
+	 */
 	public void saveFile(){
 		ExperienceTable table = ExperienceTable.getInstance();
 		int i = 1;
