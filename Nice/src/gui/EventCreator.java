@@ -38,8 +38,8 @@ public class EventCreator implements ActionListener {
 			switch(eventType){
 			case 1: GameEvent mevent = new MoveEvent(x, y); game.processEvent(mevent);
 					break;
-			case 2: GameEvent pevent = new PickUpEvent(); game.processEvent(pevent); break;
-			case 3: GameEvent fevent = new FightEvent(); game.processEvent(fevent); break;
+			case 2: GameEvent pevent = new PickUpEvent(x, y); game.processEvent(pevent); break;
+			case 3: GameEvent fevent = new FightEvent(x, y); game.processEvent(fevent); break;
 			case 5: GameEvent revent = new RollEvent(); game.processEvent(revent); break;
 			}
 		}

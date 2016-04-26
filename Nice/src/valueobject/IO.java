@@ -300,12 +300,21 @@ public final class IO {
 		getConsoleInput();
 		}
 		else{
-			String msg = ch.getName() + "Runde: " + rounds + ". Bitte würfel";
+			String msg = ch.getName() + ": Runde: " + rounds + ". Bitte würfel";
 			print(msg);
+			getConsoleInput();
 		}
+	
 		
 	}
+		
+	public static void endGoalMessage(final Character ch){
+		String msg = ch.getName() + ": Congratulations! Claim your Treasure!";
+		print(msg);
+	}
+	
 }
+
 
 
 

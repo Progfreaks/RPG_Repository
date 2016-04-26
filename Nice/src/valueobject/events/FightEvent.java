@@ -3,9 +3,11 @@ package valueobject.events;
 import domain.BattleManager;
 import domain.CharacterManager;
 import valueobject.PlayerArray;
+import valueobject.EnemyArray;
 import valueobject.character.Character;
 import valueobject.character.CharacterEnum;
 import domain.DuD;
+import domain.BattleManager;
 
 
 public class FightEvent extends GameEvent {
@@ -13,22 +15,29 @@ public class FightEvent extends GameEvent {
 	Character player;
 	Character enemy;
 	CharacterManager cm;
-	
+	BattleManager battleRoom;
+	private int index = 0;
+	private int xf, yf;
+	public FightEvent(int x, int y){
+		this.xf = x;
+		this.yf = y;
+		game = DuD.getGame();
+	}
 	@Override
 	public void process() {
-		game = DuD.getGame();
+		
 		player = PlayerArray.getPlayer(0);
 
-	    cm = game.getCharMgr();
 		
-		Character enemy = cm.createCharacter(CharacterEnum.Zombie);
-		
-		BattleManager battleRoom = new BattleManager();
+		Character enemy = game.createEnemy(CharacterEnum.Zombie);
+		EnemyArray.addPlayer(enemy);
+		battleRoom = game.getBattleMgr();
 		
 		battleRoom.addPlayer(player);
-		battleRoom.addEnemy(enemy);
+		battleRoom.addEnemy(EnemyArray.getPlayer(index));
 		battleRoom.startBattle();
-	
+		this.index++;
+		game.recolour(this.xf,this.yf);
 	}
 
 }

@@ -19,6 +19,7 @@ public class CharacterManager {
 
 	private DuD game;
 	Character character = null;
+	Character enemy = null;
 	
 	
 	
@@ -34,13 +35,19 @@ public class CharacterManager {
 		
 		return character;
 	}
+	public Character createEnemy(CharacterEnum pCharacter){
+		enemy = new Character(pCharacter.getName(), pCharacter.getLife(), pCharacter.getIsPlayer(),pCharacter.getSkills(), 0, 0);
+		return enemy;
+	}
 	public void setCoords(int x, int y){
 		character.setCoords(x, y);
 	}
-	public int getXCoord(){
+	public int getPlayerXCoord(){
+		character = PlayerArray.getPlayer(0);
 		return character.getXCoord();
 	}
-	public int getYCoord(){
+	public int getPlayerYCoord(){
+		character = PlayerArray.getPlayer(0); //Hässlich, sollte weg
 		return character.getYCoord();
 	}
 	public Character getPlayer(final int index){

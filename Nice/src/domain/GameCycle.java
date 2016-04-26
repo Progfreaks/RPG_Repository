@@ -11,36 +11,48 @@ import java.util.Random;
 
 public class GameCycle {
 	
-	Character p01;
-	private int endIndicator;
-	private int rounds;
+	private Character p01;
+	private boolean endIndicator;
+	private static int rounds;
 	private Dice playDice;
-	private DuD game;
+	private static DuD game;
 	
 
-	public int getRounds(){
-		return this.rounds;
+	public static int getRounds(){
+		return rounds;
 	}
-    public int getIndicator(){
+    public boolean getIndicator(){
     	return this.endIndicator;
     }
+    public void setIndicator(boolean in){
+    	
+    }
 	
-    public void gameCycle(){
+    public void nextRound(){
+    	if(!endIndicator){
+    		p01 = game.getPlayer(0);
     		int diceNum = 0;
-    		diceNum = playDice.diceForRound(game.getPlayer(0), rounds);
+    		diceNum = Dice.diceForRound(p01, rounds);
     		game.callForAction(diceNum);
     		rounds++;
     	}
+    	else{
+    		p01 = game.getPlayer(0);
+    		int diceNum = 0;
+    		diceNum = Dice.diceForRound(p01, rounds);
+    		game.callForAction(diceNum);
+    		rounds++;
+    	}
+    }
     	
     	
     
 	
 	public GameCycle(DuD game){
-		this.endIndicator = 0;
+		this.endIndicator = false;
 		this.rounds = 1;
 		playDice = new Dice();
 		this.game = game;
-		gameCycle();
 		
 	}
 

@@ -1,7 +1,7 @@
 package domain;
 
 import java.util.Vector;
-
+import domain.DuD;
 import valueobject.*;
 import valueobject.character.Character;
 
@@ -18,11 +18,12 @@ public class BattleManager {
 	private Vector<Character> enemys;
 	private Character p01 ;
 	private Character e01;
-	
+	private DuD game;
 
 	
 	
-	public BattleManager(){
+	public BattleManager(DuD game){
+		this.game = game;
 		players = new Vector<Character>();
 		enemys = new Vector<Character>();
 	}
