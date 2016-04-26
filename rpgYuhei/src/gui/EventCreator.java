@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import valueobject.events.*;
 import domain.DuD;
-import gui.Maprender;
+
 
 
 public class EventCreator implements ActionListener {
@@ -18,26 +18,33 @@ public class EventCreator implements ActionListener {
 		this.eventType = eventType; // Setten des EventsIndex
 	}
 	public void actionPerformed(ActionEvent e){
+		//The loop tracks the clicked buttonposition
 		int x = 0;
 		int y = 0;
-		fieldSquares = game.getButtonArray();
-		for(int i = 0; i < fieldSquares.length; i++){
-			for(int s = 0; s < fieldSquares[i].length; s++){
-				if(fieldSquares[i][s] == e.getSource()){
-					x = s;
-					y = i;
+		if(eventType == 9){ //Zum abfangen des NewGame
+			GameEvent sevent = new StartEvent(); //game.removePanel(0);
+			game.processEvent(sevent);
+			}
+		else{
+			fieldSquares = game.getButtonArray();
+			for(int i = 0; i < fieldSquares.length; i++){
+				for(int s = 0; s < fieldSquares[i].length; s++){
+					if(fieldSquares[i][s] == e.getSource()){
+						x = s;
+						y = i;
+					}
 				}
+			}
+			switch(eventType){
+			case 1: GameEvent mevent = new MoveEvent(x, y); game.processEvent(mevent);
+					break;
+			case 2: GameEvent pevent = new PickUpEvent(); game.processEvent(pevent); break;
+			case 3: GameEvent fevent = new FightEvent(); game.processEvent(fevent); break;
+			case 5: GameEvent revent = new RollEvent(); game.processEvent(revent); break;
 			}
 		}
 		
 		
-		switch(eventType){
-		case 1: GameEvent mevent = new MoveEvent(x, y); game.processEvent(mevent);
-				break;
-		case 2: GameEvent pevent = new PickUpEvent(); game.processEvent(pevent); break;
-		case 3: GameEvent fevent = new FightEvent(); game.processEvent(fevent); break;
-		
-		}
 	}
 	
 	public void getActionCalls(JButton[][] fieldSquares){ //Zuweisung der ActionListener und Events
@@ -53,5 +60,12 @@ public class EventCreator implements ActionListener {
 				}
 			}
 		}
+	}
+	public void getStartCall(JButton StartButton){
+		StartButton.addActionListener(new EventCreator(9)); 
+		
+	}
+	public void getRollCall(JButton RollButton){
+		RollButton.addActionListener(new EventCreator(5));
 	}
 }

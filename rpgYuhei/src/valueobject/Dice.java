@@ -68,6 +68,19 @@ public final class Dice {
             return totalMP;
 
 		}
+		
+		/**
+		 * Wuerfeln fuer die Bewergung.
+		 * @param ch
+		 * @param rounds
+		 * @return
+		 */
+		public static int diceForRound(Character ch, int rounds){
+			IO.roundDiceMessage(ch, rounds);
+			int diceNumRound = random.nextInt(5)+1;
+			IO.showNumMessage(diceNumRound);
+			return diceNumRound;
+		}
 	}
 
 	

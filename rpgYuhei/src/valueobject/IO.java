@@ -145,6 +145,7 @@ public final class IO {
 	}
 	
 	
+	
 	/**
 	 * Gibt den Verlauf des Kampfs aus.
 	 * @param c01
@@ -204,7 +205,7 @@ public final class IO {
 		}
 
             String result = c01.isAlive() ? "You":"ENEMY";
-	       print(result+" has won!!");
+	       print(result+" hat gewonnen!!");
 	        
 	}	
 	
@@ -296,6 +297,18 @@ public final class IO {
 		print("Der Schaden ist ("+ d01+" * "+d02+") * "+multi+" = "+iTotalDamage+"\n");
 		multi = 1.0;
         return iTotalDamage; 
+	}
+	public static void roundDiceMessage(final Character ch, int rounds){
+		if(rounds <= 1){
+		String msg = ch.getName() + ": Rundenbeginn! Bitte wuerfel";
+		print(msg);
+		getConsoleInput();
+		}
+		else{
+			String msg = ch.getName() + "Runde: " + rounds + ". Bitte wuerfel";
+			print(msg);
+		}
+		
 	}
 }
 

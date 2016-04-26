@@ -1,7 +1,8 @@
 package domain;
-import gui.Maprender;
 import valueobject.character.Character;
 import java.io.*;
+import domain.DuD;
+import valueobject.Dice;
 
 import valueobject.IO;
 
@@ -11,15 +12,12 @@ import java.util.Random;
 public class GameCycle {
 	
 	Character p01;
-	Maprender map;
-	private int endIndicator = 0;
+	private int endIndicator;
 	private int rounds;
+	private Dice playDice;
+	private DuD game;
 	
-	public void newGame(){
-		//setUp();
-		map = new Maprender();
-		
-	}
+
 	public int getRounds(){
 		return this.rounds;
 	}
@@ -27,31 +25,22 @@ public class GameCycle {
     	return this.endIndicator;
     }
 	
-    /**private void setUp(){
-		System.out.println("Charakter auswaehlen");
-		System.out.println(" 1 : Held \n 2 : Magier \n 3 : Kobold ");
-
-		
-
-		String select = IO.getConsoleInput();
-	 
-	 switch(select){
-     case "1":  p01 = new Warrior("Held",100);
-     break;
-     case "2": p01 = new Warrior("Magier",100);
-     break;
-     case "3":  p01 = new Warrior("Kobold",100);
-     break;
-    
-     }
-	
-	}**/
     public void gameCycle(){
+    		int diceNum = 0;
+    		diceNum = playDice.diceForRound(game.getPlayer(0), rounds);
+    		game.callForAction(diceNum);
+    		rounds++;
+    	}
     	
-    }
+    	
+    
 	
-	public GameCycle(){
-		
+	public GameCycle(DuD game){
+		this.endIndicator = 0;
+		this.rounds = 1;
+		playDice = new Dice();
+		this.game = game;
+		gameCycle();
 		
 	}
 
