@@ -2,8 +2,11 @@ package domain;
 
 import valueobject.events.GameEvent;
 import valueobject.fieldobjects.*;
+
 import javax.swing.JButton;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+
 import domain.*;
 import valueobject.guiobjects.*;
 import valueobject.character.Character;
@@ -109,8 +112,8 @@ public class DuD {
 		return GuiControll.getRollButton();
 	}
 	
-	public JPanel getRollLayer(){
-		return GuiControll.getRollLayer();
+	public JMenuBar getMenuBar(){
+		return GuiControll.getMenuBar();
 	}
 	
 	public void setCharCoords(int x, int y){

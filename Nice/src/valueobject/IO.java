@@ -13,7 +13,7 @@ import java.io.*;
  * 
  * @author YOU_HEY
  * 
- * Klasse für die Konsole-Ausgabe und Eingabe
+ * Klasse fuer die Konsole-Ausgabe und Eingabe
  *
  */
 public final class IO {
@@ -30,7 +30,7 @@ public final class IO {
 	static String skillName ;
 	
 	/**
-	 * Gibt die Konsole-Eingabe zurück.
+	 * Gibt die Konsole-Eingabe zurueck.
 	 * @return Konsole-Eingabe
 	 */
 	public static String getConsoleInput(){
@@ -61,7 +61,7 @@ public final class IO {
 	
 	/**
 	 * 
-	 * Wählt eine Fähigkeit aus und gibt entsprechender Schaden zurück.
+	 * Waehlt eine Faehigkeit aus und gibt entsprechender Schaden zurueck.
 	 * @param character 
 	 * @return Schaden
 	 */
@@ -166,15 +166,17 @@ public final class IO {
 			
             if(num != 0){
 						
-			print(c02.getName()+" kriegt "+num+" Schaden! "+c01.getLife()+"/"+
-			c01.getMaxLife()+" -> "+(c01.getLife()-num)+"/"+
-					c01.getMaxLife()+" (ENTER)\n");
-			getConsoleInput();
+			System.out.print(c02.getName()+" kriegt "+num+" Schaden! "+c02.getLife()+"/"+
+			c02.getMaxLife()+" -> ");
 			c02.setLife(-num);
 
+			print(c02.getLife()+"/"+
+					c02.getMaxLife()+" (ENTER)\n");
+			getConsoleInput();
+
 			if(!c02.isAlive()){
-				  System.out.println("You"
-				  		+ " has won!!");
+				  System.out.println("Du"
+				  		+ " hast gewonnen!!");
 				  return;
 			}
                                 	} 
@@ -188,11 +190,13 @@ public final class IO {
 		    print(c02.getName()+" greift an!! (ENTER) > \n");
 		    getConsoleInput();
 			
-			print(c01.getName()+" kriegt "+num+" Schaden! "+c01.getLife()+"/"+
-			c01.getMaxLife()+" -> "+(c01.getLife()-num)+"/"+
+			System.out.print(c01.getName()+" kriegt "+num+" Schaden! "+c01.getLife()+"/"+
+			c01.getMaxLife()+" -> ");
+			c01.setLife(-num);
+
+			print(c01.getLife()+"/"+
 					c01.getMaxLife()+" (ENTER)\n");
 			getConsoleInput();
-			c01.setLife(-num);
 			 }
 			c01.print();
 			print("Naechste Runde (ENTER) > \n");
@@ -200,7 +204,7 @@ public final class IO {
 		}
 
             String result = c01.isAlive() ? "You":"ENEMY";
-	       print(result+" has won!!");
+	       print(result+" hat gewonnen!!");
 	        
 	}	
 	
@@ -215,6 +219,8 @@ public final class IO {
 		}
 		
 		int number = Integer.parseInt(getConsoleInput());
+		
+		
 		CharacterEnum character = null;
 		
 		 print("\nLos geht's mit dem "+CharacterEnum.values()[number-1].getName()+"!!\n"); character = CharacterEnum.values()[number-1] ;
@@ -295,17 +301,21 @@ public final class IO {
 	}
 	public static void roundDiceMessage(final Character ch, int rounds){
 		if(rounds <= 1){
-		String msg = ch.getName() + ": Rundenbeginn! Bitte w�rfel";
+		String msg = ch.getName() + ": Rundenbeginn! Bitte wuerfel (ENTER)";
 		print(msg);
 		getConsoleInput();
 		}
 		else{
-			String msg = ch.getName() + ": Runde: " + rounds + ". Bitte w�rfel";
+			String msg = ch.getName() + ": Runde: " + rounds + ". Bitte wuerfel (ENTER)";
 			print(msg);
 			getConsoleInput();
 		}
 	
 		
+	}
+	
+	public static void illegalValueMessage(){
+		print("falsche Eingabe ");
 	}
 		
 	public static void endGoalMessage(final Character ch){

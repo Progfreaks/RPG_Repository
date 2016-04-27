@@ -19,12 +19,22 @@ public final class PlayerArray {
 	private static Character player03;
 	private static Character player04;
 	
-	public static ArrayList<Character> list = new ArrayList<Character>();
+	//List, die alle Speilern enthaelt.
+	public static List<Character> list = new ArrayList<Character>();
 	
+	/**
+	 * Fuegt einen Speieler in die List hinzu.
+	 * @param character
+	 */
 	public static void addPlayer(final Character character){
 		list.add(character);
 	}
 	
+	/**
+	 * Bekommt einen Spieler aus der Liste.
+	 * @param index
+	 * @return
+	 */
 	public static Character getPlayer(final int index){
 		return list.get(index);
 	}

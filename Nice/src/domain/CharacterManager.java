@@ -35,21 +35,49 @@ public class CharacterManager {
 		
 		return character;
 	}
+	
+	/**
+	 * Erzeugt einen Gegner.
+	 * @param pCharacter
+	 * @return
+	 */
 	public Character createEnemy(CharacterEnum pCharacter){
 		enemy = new Character(pCharacter.getName(), pCharacter.getLife(), pCharacter.getIsPlayer(),pCharacter.getSkills(), 0, 0);
 		return enemy;
 	}
+	
+	/**
+	 * Setzt die Charakterkoodinaten.
+	 * @param x
+	 * @param y
+	 */
 	public void setCoords(int x, int y){
 		character.setCoords(x, y);
 	}
+	
+	/**
+	 * Gibt x-Koodinaten zurueck.
+	 * @return
+	 */
 	public int getPlayerXCoord(){
 		character = PlayerArray.getPlayer(0);
 		return character.getXCoord();
 	}
+	
+	/**
+	 * Gibt y-Koodinaten zurueck.
+	 * @return
+	 */
 	public int getPlayerYCoord(){
-		character = PlayerArray.getPlayer(0); //Hässlich, sollte weg
+		character = PlayerArray.getPlayer(0); //Hï¿½sslich, sollte weg
 		return character.getYCoord();
 	}
+	
+	/**
+	 * Nimmt einen Spieler aus PlayerArray anhand der entsprechenden Index-Nummer.
+	 * @param index
+	 * @return
+	 */
 	public Character getPlayer(final int index){
 		return PlayerArray.getPlayer(index);
 	}

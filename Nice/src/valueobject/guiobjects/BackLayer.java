@@ -1,5 +1,13 @@
 package valueobject.guiobjects;
 import javax.swing.*;
+
+import org.omg.CORBA.PUBLIC_MEMBER;
+
+import domain.GameCycle;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 public class BackLayer {
@@ -8,8 +16,18 @@ public class BackLayer {
 	public BackLayer(){
 		this.backLayer = new JFrame("Bestes RPG");
 		backLayer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		backLayer.setSize(1240, 1024);
-		BoxLayout boxlayout = new BoxLayout(backLayer.getContentPane(), BoxLayout.Y_AXIS);
+		
+//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		/** int w = screenSize.width;
+		        int h = screenSize.height;
+		        backLayer.setBounds(w / 4, h / 4, w / 2, h / 2);**/
+		backLayer.setSize(1000, 600);
+		
+		
+		//backLayer.setSize(500, 500);
+
+		//BoxLayout boxlayout = new BoxLayout(backLayer.getContentPane(), BoxLayout.Y_AXIS);
+		BorderLayout boxlayout = new BorderLayout();
 		backLayer.setLayout(boxlayout);
 		this.panelList = new ArrayList<JPanel>();
 		backLayer.setVisible(true);
@@ -35,6 +53,10 @@ public class BackLayer {
 	}
 	public void refresh(){
 		backLayer.revalidate();
+	}
+	public void addMenuBar(JMenuBar menuBar){
+		backLayer.add(menuBar, BorderLayout.SOUTH);
+		refresh();
 	}
 
 }

@@ -2,17 +2,24 @@ package valueobject.guiobjects;
 
 import javax.swing.*;
 import javax.swing.border.*;
+
 import valueobject.fieldobjects.TestFigure;
+
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 
 public class ButtonLayer {
 	public JButton[][] fieldSquares = new JButton[32][32];
+	//public JButton[][] fieldSquares = new JButton[16][32];
+
 	private JPanel buttonLayer;
 	private Border moveBorder;
 	public ButtonLayer(){
 		buttonLayer = new JPanel(new GridLayout(32,32));
+		//buttonLayer = new JPanel(new GridLayout(16,32));
+
 		
 	}
 	public void fillLayer(int index, int i, int s){
@@ -30,8 +37,10 @@ public class ButtonLayer {
 		fieldSquares[i][s].setOpaque(true); addButton(fieldSquares[i][s]); break;
 		
 		case 4: fieldSquares[i][s] = new JButton(); fieldSquares[i][s].setBackground(Color.BLUE); 
-		 fieldSquares[i][s].setOpaque(true); addButton(fieldSquares[i][s]);  break;
+		 fieldSquares[i][s].setOpaque(true); addButton(fieldSquares[i][s]); break;
 		}
+		
+		
 		
 	}
 	public JButton[][] getFieldSquares(){
@@ -56,10 +65,12 @@ public class ButtonLayer {
 	public void setMoveBorder(JButton square){
 		moveBorder = new LineBorder(Color.GREEN, 1);
 		square.setBorder(moveBorder);
+		square.setBorderPainted(true);
 	}
 	public void removeMoveBorder(JButton square){
-		moveBorder = new LineBorder(Color.GRAY, 1);
+		moveBorder = new LineBorder(Color.GRAY);
 		square.setBorder(moveBorder);
+		square.setBorderPainted(true);
 	}
 	
 

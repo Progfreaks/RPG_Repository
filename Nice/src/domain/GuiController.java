@@ -1,6 +1,5 @@
 package domain;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
 import valueobject.guiobjects.*;
 
 import domain.DuD;
@@ -40,8 +39,8 @@ public class GuiController {
 		this.rollButton = rollButton;
 	}
 	
-	public JPanel getRollLayer(){
-		return rollButton.getRollLayer();
+	public JMenuBar getMenuBar(){
+		return rollButton.getMenuBar();
 	}
 	
 	public JButton getRollButton(){

@@ -32,12 +32,11 @@ public class Maprender {
 		/**
 		JPanel menue = new JPanel();//Menue Layer
 		menue.setSize(300, 600); //Groesse des Menue Layers
-		backLayer.add(menue, BorderLayout.SOUTH);// Hinzufügen des Menuelayer, Layout unterer Bildschirmrand
+		backLayer.add(menue, BorderLayout.SOUTH);// Hinzufï¿½gen des Menuelayer, Layout unterer Bildschirmrand
 		*/
-		backLayer.addPanel(buttonLayer.getButtonLayer(), 0);//Hinzufügen des Buttonlayer
-		backLayer.addPanel(game.getRollLayer(), 1);
+		backLayer.addPanel(buttonLayer.getButtonLayer(), 0);//Hinzufï¿½gen des Buttonlayer
+		backLayer.addMenuBar(game.getMenuBar());
 		backLayer.setPanelVisible(0, true);
-		backLayer.setPanelVisible(1, true);
 		refreshGUI();
 		
 	}

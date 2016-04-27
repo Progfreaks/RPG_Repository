@@ -1,21 +1,21 @@
 package valueobject.guiobjects;
 /**
- * Kann später genutz werden um alle Menüobjekte zu verwalten
+ * Kann spï¿½ter genutz werden um alle Menï¿½objekte zu verwalten
  */
 import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.JMenuBar;
 public class RollButton {
-	JPanel rollLayer;
+	JMenuBar menuBar;
 	JButton rollButton;
 	private int rounds;
 	public RollButton(){
-		rollLayer = new JPanel();
+		menuBar = new JMenuBar();
 		rollButton = new JButton("Please Roll");
-		rollLayer.add(rollButton);
+		menuBar.add(rollButton);
 		rounds = 0;
 	}
-	public JPanel getRollLayer(){
-		return rollLayer;
+	public JMenuBar getMenuBar(){
+		return menuBar;
 	}
 	
 	public JButton getRollButton(){
