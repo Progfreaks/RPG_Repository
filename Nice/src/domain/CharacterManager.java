@@ -1,7 +1,8 @@
 package domain;
 
 import valueobject.character.Character;
-import valueobject.character.CharacterEnum;
+import persistence.character.CharacterData;
+import persistence.character.CharacterData.Skill;
 import domain.DuD;
 import valueobject.PlayerArray;
 
@@ -25,12 +26,18 @@ public class CharacterManager {
 	
 	/**
 	 * Erzeugt einen Charakter.
-	 * @param pCharacter
+	 * @param data
 	 * @return
 	 */
-	public Character createCharacter(CharacterEnum pCharacter){
+	public Character createCharacter(CharacterData data){
 		
-		character = new Character(pCharacter.getName(), pCharacter.getLife(), pCharacter.getIsPlayer(),pCharacter.getSkills(), 0, 0); // 0 u. 0 sind x und y
+		String name = data.getValue(data.NAME);
+		int hp = Integer.valueOf(data.getValue(data.HP));
+		int mp = Integer.valueOf(data.getValue(data.MP));
+		boolean isPlayer = Boolean.valueOf(data.getValue(data.ISPLAYER));
+		Skill[] skills = data.getSkill();
+		
+		character = new Character(name, hp,mp, isPlayer,skills, 0, 0); // 0 u. 0 sind x und y
 				
 		
 		return character;
@@ -41,10 +48,18 @@ public class CharacterManager {
 	 * @param pCharacter
 	 * @return
 	 */
-	public Character createEnemy(CharacterEnum pCharacter){
-		enemy = new Character(pCharacter.getName(), pCharacter.getLife(), pCharacter.getIsPlayer(),pCharacter.getSkills(), 0, 0);
+	public Character createEnemy(CharacterData status){
+		String name = status.getValue(status.NAME);
+		int hp = Integer.valueOf(status.getValue(status.HP));
+		int mp = Integer.valueOf(status.getValue(status.MP));
+		boolean isPlayer = Boolean.valueOf(status.getValue(status.ISPLAYER));
+		Skill[] skills = status.getSkill();
+		
+		character = new Character(name, hp, mp,isPlayer,skills, 0, 0); // 0 u. 0 sind x und y
 		return enemy;
 	}
+	
+	
 	
 	/**
 	 * Setzt die Charakterkoodinaten.

@@ -13,6 +13,7 @@ public class StartGui {
 	private BackLayer backLayer;
 	private JButton startButton;
 	private EventCreator creator = new EventCreator(0);
+	
 	public StartGui(){
 		game.setbackLayer(new BackLayer());
 		game.addPanel(newGamePanel(), 0);

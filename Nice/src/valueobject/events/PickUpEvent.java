@@ -1,6 +1,6 @@
 package valueobject.events;
+import domain.CentralSave;
 import domain.DuD;
-import valueobject.IO;
 import valueobject.PlayerArray;
 
 
@@ -13,7 +13,7 @@ public class PickUpEvent extends GameEvent {
 	public void process(){
 		System.out.println("PickUp, der Picknicker von Leibnitz");
 		game.setIndicator(true);
-		IO.endGoalMessage(PlayerArray.getPlayer(0));
+		CentralSave.console.endGoalMessage(PlayerArray.getPlayer(0));
 		game.recolour(x, y);
 		game.renderChest();
 	}

@@ -28,7 +28,7 @@ public class MapHandling {
 		
 	}
 	/**
-	 * Erstellt den buttonLayer, disabled alle Buttons und leitet dies weiter an die Gui über game
+	 * Erstellt den buttonLayer, disabled alle Buttons und leitet dies weiter an die Gui ï¿½ber game
 	 */
 	public void render(){
 		buttonLayer = new ButtonLayer();
@@ -55,7 +55,7 @@ public class MapHandling {
 	}
 	/**
 	 * params = Position des geclickten Buttons
-	 * settet außerderm neue charposi
+	 * settet ausserderm neue charposi
 	 * @param xf 
 	 * @param yf
 	 */
@@ -78,7 +78,7 @@ public class MapHandling {
 	}
 	
 	/**
-	 * Enabled die Buttons anhand der Würfelaugenzahl und gibt den begehbaren Buttons ne schnieke grüne Border
+	 * Enabled die Buttons anhand der Wuerfelaugenzahl und gibt den begehbaren Buttons ne schnieke gruene Border
 	 * Beachtet out of bounds und nicht passierbare walls
 	 * refresh der gui
 	 * @param diceNum

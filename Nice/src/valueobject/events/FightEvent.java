@@ -1,13 +1,12 @@
 package valueobject.events;
 
+import persistence.character.CharacterDataMap;
 import domain.BattleManager;
 import domain.CharacterManager;
 import valueobject.PlayerArray;
 import valueobject.EnemyArray;
 import valueobject.character.Character;
-import valueobject.character.CharacterEnum;
 import domain.DuD;
-import domain.BattleManager;
 
 
 public class FightEvent extends GameEvent {
@@ -28,8 +27,9 @@ public class FightEvent extends GameEvent {
 		
 		player = PlayerArray.getPlayer(0);
 
-		
-		Character enemy = game.createEnemy(CharacterEnum.Zombie);
+	    CharacterDataMap map = CharacterDataMap.getInstance();
+
+		Character enemy = game.createEnemy(map.getCharacterData(5));
 		EnemyArray.addPlayer(enemy);
 		battleRoom = game.getBattleMgr();
 		

@@ -2,6 +2,7 @@ package valueobject;
 
 import java.util.*;
 
+import domain.CentralSave;
 import valueobject.character.Character;
 
 /**
@@ -15,7 +16,7 @@ public final class Dice {
 	static Random random = new Random();
 
 	/**
-	 * Wuerfeln fuer Angreifen
+	 * Wuerfeln fuer Angreifen.
 	 * @param ch
 	 * @return
 	 */
@@ -24,27 +25,30 @@ public final class Dice {
 		 		
 		   int totalDamage = 0;
 		
-			IO.diceMessage(ch);
+			CentralSave.console.diceMessage(ch);
 		   
-	       int diceNum01 = random.nextInt(5)+1;
+	       int diceNum01 = getDiceNummer();
 	       
-	       int damage01 = IO.validDiceNumMessage(diceNum01);
+	       
+	       int damage01 = CentralSave.console.validDiceNumMessage(diceNum01);
 	       if(damage01 == 0) return 0;
 	       	  
-		   IO.diceMessage(ch);
+		   CentralSave.console.diceMessage(ch);
 		   
-		   int diceNum02 = random.nextInt(5)+1;
+		   int diceNum02 = getDiceNummer();
 		   
 		   
-		   int damage02 = IO.validDiceNumMessage(diceNum02);
+		   int damage02 = CentralSave.console.validDiceNumMessage(diceNum02);
 		   if(damage02 == 0) return 0;
 		   		    
-		   totalDamage 		=  IO.totalDamageMessage(damage01, damage02,ch);			
+		   totalDamage 		=  CentralSave.console.totalDamageMessage(damage01, damage02,ch);			
 
 		   		   
 		   		   
 		   return totalDamage;
 		}
+		
+		
 		
 		
 		
@@ -54,19 +58,34 @@ public final class Dice {
 		 * @return
 		 */
 		public static int diceForMP(final Character ch){
-			IO.diceMessage(ch);
-		    int diceNum01 = random.nextInt(5)+1;
-            int mp01 = IO.showNumMessage(diceNum01);
+			
+			CentralSave.console.diceMessage(ch);
+		    int diceNum01 = getDiceNummer();
+            int mp01 = CentralSave.console.showNumMessage(diceNum01);
             
-            IO.diceMessage(ch);
-		    int diceNum02 = random.nextInt(5)+1;
-            int mp02 = IO.showNumMessage(diceNum02);
+            CentralSave.console.diceMessage(ch);
+		    int diceNum02 = getDiceNummer();
+            int mp02 = CentralSave.console.showNumMessage(diceNum02);
             
-            int totalMP =  IO.chargeMPMessage(mp01,mp02);
+            int totalMP =  CentralSave.console.chargeMPMessage(mp01,mp02);
             
            
             return totalMP;
 
+		}
+		
+		/**
+		 * Hiffs Methode fuer diceForAtk und diceForMP
+		 * Gibt zufaellige Nummer 1~6 zurueck.
+		 * @return
+		 */
+		public static int getDiceNummer(){
+			
+			int diceNum = random.nextInt(5)+1;
+			//Verringert ein bisschen dass Augenzahl 1 kriegt.
+			if(diceNum == 1) diceNum = random.nextInt(3)+1;
+			
+			return diceNum;
 		}
 		
 		/**
@@ -76,9 +95,9 @@ public final class Dice {
 		 * @return
 		 */
 		public static int diceForRound(Character ch, int rounds){
-			IO.roundDiceMessage(ch, rounds);
+			CentralSave.console.roundDiceMessage(ch, rounds);
 			int diceNumRound = random.nextInt(5)+1;
-			IO.showNumMessage(diceNumRound);
+			CentralSave.console.showNumMessage(diceNumRound);
 			return diceNumRound;
 		}
 	}

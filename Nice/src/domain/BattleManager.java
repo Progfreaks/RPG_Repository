@@ -1,5 +1,7 @@
 package domain;
 
+import gui.CommandoInput;
+
 import java.util.List;
 import java.util.Vector;
 
@@ -26,6 +28,8 @@ public class BattleManager {
 		
 		private Character p01 ;
 		private Character e01;
+		
+		private CommandoInput console;
 	
 	
 	public BattleManager(DuD game){
@@ -33,6 +37,9 @@ public class BattleManager {
 		players = new Vector<Character>();
 		enemys = new Vector<Character>();
 	}
+	
+	
+	
 	
 	/**
 	 * Fuegt einen Spieler ins Array hinzu.
@@ -77,7 +84,7 @@ public class BattleManager {
 		
 		p01 = players.get(numberOfPlayer()-1);
 	    e01 = enemys.get(numberOfEnemy()-1);
-	    IO.roundMessage(p01, e01);
+	    CentralSave.console.roundMessage(p01, e01);
 
 		
 	}

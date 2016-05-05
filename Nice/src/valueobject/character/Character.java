@@ -1,8 +1,10 @@
 package valueobject.character;
 
+import java.util.Map;
+
+import domain.CentralSave;
 import valueobject.Dice;
-import valueobject.IO;
-import valueobject.character.Skill.SkillEnum;
+import persistence.character.CharacterData;
 
 
 /**
@@ -10,7 +12,7 @@ import valueobject.character.Skill.SkillEnum;
  * @author YOU_HEY
  *
  */
-public  class Character{
+public  class Character  {
 	
 	
 	    //Name des Charakters.
@@ -28,11 +30,17 @@ public  class Character{
 		//Maximale Lebenspunkte.
 		private final int maxLife;
 		//Maximale Manapunkte.
-		private int manaPoint;
+		private final int maxMP;
+		
+		private int mp;
 		//Faehigkeiten des Charakters.
-		private SkillEnum[] skills;
+		
+		
 		//Koordinate des Charakters.
 		private int x, y;
+		
+		private persistence.character.CharacterData.Skill[] skills;
+		
 	
 		/**
 		 * Konstruktor des Charakters.
@@ -43,7 +51,7 @@ public  class Character{
 		 * @param x
 		 * @param y
 		 */
-	public  Character(final String name,final int life,final boolean isPlayer,final SkillEnum[] skills, int x, int y) {
+	public  Character(final String name,final int life,final int mp,final boolean isPlayer,final persistence.character.CharacterData.Skill[] skills, int x, int y) {
 		
 		this.name = name;
 		this.life = life;
@@ -51,11 +59,11 @@ public  class Character{
 		this.exPoint = 0;
 		this.isAlive = true;
 		this.isPlayer = isPlayer;
-		this.manaPoint = 36;
+		this.mp = mp;
 		this.skills = skills;
 		this.x = x;
 		this.y = y;
-		
+		maxMP = mp;
 		maxLife = life;
 	}
 
@@ -160,40 +168,45 @@ public  class Character{
 	public int getMaxLife(){
 		return maxLife;
 	}
-	/**
-	 * Eine print-Methode.
-	 */
-	public void print(){
-		System.out.println("Name:"+getName()+" Life:"+getLife()+"/"+getMaxLife()
-				+" MP:"+getMP()+"/36"+" Level:"+getLevel()+"\n");
+//	/**
+//	 * Eine print-Methode.
+//	 */
+//	public void print(){
+//		System.out.println("Name:"+getName()+" Life:"+getLife()+"/"+getMaxLife()
+//				+" MP:"+getMP()+"/"+maxMP+" Level:"+getLevel()+"\n");
+//	}
+	
+	public String toString(){
+		return "Name:"+getName()+" Life:"+getLife()+"/"+getMaxLife()
+				+" MP:"+getMP()+"/"+maxMP+" Level:"+getLevel();
 	}
-	/**
-	 * Methode, die Angriff-Prozess ausfuehrt.
-	 * @return
-	 */
-	public int attack(){
-		return isPlayer() ? IO.selectCommandMessage(this):Dice.diceForAtk(this);
-	}
+//	/**
+//	 * Methode, die Angriff-Prozess ausfuehrt.
+//	 * @return
+//	 */
+//	public int attack(){
+//		return isPlayer() ? CentralSave.console.selectCommandMessage(this):Dice.diceForAtk(this);
+//	}
 	/**
 	 * Setter-Methode fuer MP.
 	 * @param mp
 	 */
-	public void setMP(final int mp){
-		manaPoint += mp;
-		if(manaPoint < 0) manaPoint = 0;
+	public void setMP(final int pMP){
+		mp += pMP;
+		if(mp < 0) mp = 0;
 	}
 	/**
 	 * Getter-Methode fuer MP.
 	 * @return
 	 */
 	public int getMP(){
-		return manaPoint;
+		return mp;
 	}
 	/**
 	 * GetterMethode fuer die Faehigkeiten.
-	 * @return
-	 */
-	public SkillEnum[] getSkills(){
+	 * @return*/
+	 
+	public persistence.character.CharacterData.Skill[] getSkills(){
 		return skills;
 	}
 	/**
@@ -226,5 +239,6 @@ public  class Character{
 	public Character getThis(){
 		return this;
 	}
-
+	
+	
 }

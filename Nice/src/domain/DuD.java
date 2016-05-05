@@ -1,5 +1,6 @@
 package domain;
 
+import gui.CommandoInput;
 import valueobject.events.GameEvent;
 import valueobject.fieldobjects.*;
 
@@ -12,7 +13,7 @@ import valueobject.guiobjects.*;
 import valueobject.character.Character;
 import domain.GameCycle;
 import domain.BattleManager;
-import valueobject.character.CharacterEnum;
+import persistence.character.CharacterData;
 
 public class DuD {
 	public static DuD game = null;
@@ -21,6 +22,7 @@ public class DuD {
 	private CharacterManager CharMgr = null;
 	private BattleManager BattleMgr = null;
 	private GameCycle cycle = null;
+	private  CommandoInput console = null;
 	
 	public DuD(){
 		this.BoardMgr = new MapHandling(this);
@@ -47,6 +49,8 @@ public class DuD {
 
 		return game;
 	}
+	
+	
 	
 	public void setGame(DuD game){
 		this.game = game;
@@ -131,7 +135,7 @@ public class DuD {
 	public Character getPlayer(final int index){
 		return CharMgr.getPlayer(index);
 	}
-	public Character createEnemy(CharacterEnum pCharacter){
+	public Character createEnemy(CharacterData pCharacter){
 		return CharMgr.createCharacter(pCharacter);
 	}
 	public void nextRound(){
