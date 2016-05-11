@@ -1,19 +1,16 @@
 package domain;
 
-import gui.CommandoInput;
 import valueobject.events.GameEvent;
 import valueobject.fieldobjects.*;
-
-import javax.swing.JButton;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-
+import javax.swing.*;
 import domain.*;
-import valueobject.guiobjects.*;
+import gui.guiobjects.*;
+import valueobject.PlayerArray;
 import valueobject.character.Character;
-import domain.GameCycle;
-import domain.BattleManager;
+import gui.CommandoInput;
+import gui.GuiManager;
 import persistence.character.CharacterData;
+import java.awt.image.BufferedImage;
 
 public class DuD {
 	public static DuD game = null;
@@ -22,14 +19,16 @@ public class DuD {
 	private CharacterManager CharMgr = null;
 	private BattleManager BattleMgr = null;
 	private GameCycle cycle = null;
-	private  CommandoInput console = null;
-	
+	private CommandoInput console = null;
+	private CentralSave save = null;
 	public DuD(){
 		this.BoardMgr = new MapHandling(this);
 		this.GuiControll = new GuiController(this);
 		this.CharMgr = new CharacterManager(this);
 		this.BattleMgr = new BattleManager(this);
 		this.cycle = new GameCycle(this);
+		this.save = new CentralSave();
+		
 	}
 	
 		
@@ -50,8 +49,6 @@ public class DuD {
 		return game;
 	}
 	
-	
-	
 	public void setGame(DuD game){
 		this.game = game;
 	}
@@ -64,9 +61,7 @@ public class DuD {
 		return BoardMgr.getBoardArray();
 	}
 	
-	public JButton[][] getButtonArray(){
-		return BoardMgr.getButtonArray();
-	}
+
 	
 	public void recolour(int xf,int yf){
 		BoardMgr.recolour(xf, yf);
@@ -83,43 +78,30 @@ public class DuD {
 		BoardMgr.callForAction(diceNum);
 	}
 	
-	public void setbackLayer(BackLayer backLayer){
-		GuiControll.setbackLayer(backLayer);
-	}
-	
-	public BackLayer getbackLayer(){
-		
-		return GuiControll.getbackLayer();
-	
-	}
-	
 	public void removePanel(int i){
 		GuiControll.removePanel(i);
 	}
 	
-	public void addPanel(JPanel obj, int i){
-		GuiControll.addPanel(obj, i);
+	public void addPanel(Object obj, int i, String in){
+		GuiControll.addPanel(obj, i, in);
 	}
 	public void refreshGUI(){
 		GuiControll.refresh();
 	}
-	
-	public void newMaprender(DuD game, BackLayer backLayer, ButtonLayer buttonLayer){
-		GuiControll.newMaprender(game,backLayer,buttonLayer);
+	public void fillLayer(int index, int i, int s){
+		GuiControll.fillLayer(index, i, s);
 	}
-	
-	public void setRollButton(RollButton rollButton){
-		GuiControll.setRollButton(rollButton);
+	public void setGuiMgr(GuiManager mgr){
+		GuiControll.setGuiMgr(mgr);
 	}
-	
-	public JButton getRollButton(){
-		return GuiControll.getRollButton();
+	public BackLayer getBackLayer(){
+		return GuiControll.getBackLayer();
 	}
-	
-	public JMenuBar getMenuBar(){
-		return GuiControll.getMenuBar();
+	public void renderGUI(){
+
+		GuiControll.renderGUI();
 	}
-	
+		
 	public void setCharCoords(int x, int y){
 		CharMgr.setCoords(x, y);
 	}
@@ -144,6 +126,39 @@ public class DuD {
 	public void setIndicator(boolean in){
 		cycle.setIndicator(in);
 	}
+	public BufferedImage loadImg(String path){
+		return save.loadImg(path);
+	}
+	
+	public void newGame(){
+		Character player = null;
+		
+		
+		//CharacterManager erzeugt einen Speiler
+		CharacterManager cm = game.getCharMgr();
+		System.out.println("moin");
+		boolean check = true;
+
+		do {
+
+			try {
+				player = cm.createCharacter(CentralSave.console.selectCharacter());
+				check = false;
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				System.out.print("bitte nur eine Zahl eingeben\n\n");
+			}
+
+		} while (check);
+		
+		
+		PlayerArray.addPlayer(player);//Der ausgewaehlte Player ist ins Array hinzugefuegt.
+	    renderMap();
+		
+		
+	
+	}
+
 	
 }
 

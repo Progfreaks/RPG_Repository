@@ -28,34 +28,28 @@ public class MapHandling {
 		
 	}
 	/**
-	 * Erstellt den buttonLayer, disabled alle Buttons und leitet dies weiter an die Gui ï¿½ber game
+	 * Erstellt den buttonLayer, disabled alle Buttons und leitet dies weiter an die Gui über game
 	 */
 	public void render(){
-		buttonLayer = new ButtonLayer();
 		this.intArray = map.getBoard();
 		for(int i = 0; i < intArray.length; i++){
 			for(int s = 0; s < intArray[i].length; s++){
 				if(intArray[i][s] == 4){
 					game.setCharCoords(s, i); //x und y des Char setzen
 				}
-				buttonLayer.fillLayer(intArray[i][s], i, s);
-				buttonLayer.disable(buttonLayer.fieldSquares[i][s]);
+				game.fillLayer(intArray[i][s], i, s);
 				}
 				
 			}
-		game.newMaprender(game, game.getbackLayer(), buttonLayer);
 		}
 
 	public int[][] getBoardArray(){
 		return map.getBoard();
 	}
 
-	public JButton[][] getButtonArray(){
-		return buttonLayer.getFieldSquares();
-	}
 	/**
 	 * params = Position des geclickten Buttons
-	 * settet ausserderm neue charposi
+	 * settet außerderm neue charposi
 	 * @param xf 
 	 * @param yf
 	 */
@@ -78,7 +72,7 @@ public class MapHandling {
 	}
 	
 	/**
-	 * Enabled die Buttons anhand der Wuerfelaugenzahl und gibt den begehbaren Buttons ne schnieke gruene Border
+	 * Enabled die Buttons anhand der Würfelaugenzahl und gibt den begehbaren Buttons ne schnieke grüne Border
 	 * Beachtet out of bounds und nicht passierbare walls
 	 * refresh der gui
 	 * @param diceNum

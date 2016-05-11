@@ -1,8 +1,8 @@
 package valueobject;
 
 import java.util.*;
-
 import domain.CentralSave;
+
 import valueobject.character.Character;
 
 /**
@@ -16,7 +16,7 @@ public final class Dice {
 	static Random random = new Random();
 
 	/**
-	 * Wuerfeln fuer Angreifen.
+	 * Wuerfeln fuer Angreifen
 	 * @param ch
 	 * @return
 	 */
@@ -25,15 +25,14 @@ public final class Dice {
 		 		
 		   int totalDamage = 0;
 		
-			CentralSave.console.diceMessage(ch);
+		   CentralSave.console.diceMessage(ch);
 		   
 	       int diceNum01 = getDiceNummer();
-	       
 	       
 	       int damage01 = CentralSave.console.validDiceNumMessage(diceNum01);
 	       if(damage01 == 0) return 0;
 	       	  
-		   CentralSave.console.diceMessage(ch);
+	       CentralSave.console.diceMessage(ch);
 		   
 		   int diceNum02 = getDiceNummer();
 		   
@@ -50,14 +49,12 @@ public final class Dice {
 		
 		
 		
-		
-		
 		/**
 		 * Wuerfeln fuer MP Aufladen
 		 * @param ch
 		 * @return
 		 */
-		public static int diceForMP(final Character ch){
+public static int diceForMP(final Character ch){
 			
 			CentralSave.console.diceMessage(ch);
 		    int diceNum01 = getDiceNummer();
@@ -73,27 +70,16 @@ public final class Dice {
             return totalMP;
 
 		}
-		
-		/**
-		 * Hiffs Methode fuer diceForAtk und diceForMP
-		 * Gibt zufaellige Nummer 1~6 zurueck.
-		 * @return
-		 */
+
 		public static int getDiceNummer(){
-			
-			int diceNum = random.nextInt(5)+1;
-			//Verringert ein bisschen dass Augenzahl 1 kriegt.
-			if(diceNum == 1) diceNum = random.nextInt(3)+1;
-			
-			return diceNum;
+	
+				int diceNum = random.nextInt(5)+1;
+					//Verringert ein bisschen dass Augenzahl 1 kriegt.
+				if(diceNum == 1) diceNum = random.nextInt(3)+1;
+	
+				return diceNum;
 		}
 		
-		/**
-		 * Wuerfeln fuer die Bewergung.
-		 * @param ch
-		 * @param rounds
-		 * @return
-		 */
 		public static int diceForRound(Character ch, int rounds){
 			CentralSave.console.roundDiceMessage(ch, rounds);
 			int diceNumRound = random.nextInt(5)+1;

@@ -33,12 +33,15 @@ import persistence.character.CharacterDataMap;
 import valueobject.Dice;
 import valueobject.PlayerArray;
 import valueobject.character.Character;
+import gui.guiobjects.BackLayer;
 
-public class CommandoInput extends JFrame implements ActionListener {
+public class CommandoInput implements ActionListener {
 
 	// ----------------------
+	private static DuD game;
 	static Character player = null;
 	static Character enemy = null;
+	private JPanel console = null;
 	static CharacterManager cm;
 	private static CharacterDataMap map = CharacterDataMap.getInstance();
 
@@ -56,16 +59,17 @@ public class CommandoInput extends JFrame implements ActionListener {
 	JTextArea area = new JTextArea();
 	JTextField field = new JTextField();
 
-	public CommandoInput(String titel) {
-		super(titel);
+	public CommandoInput() {
+		game = DuD.getGame();
+		this.console = new JPanel();
 		initialize();
+		
 	}
 
 	private void initialize() {
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(600, 600);
-
+		
+		console.setSize(800, 400);
 		area.setEditable(false);
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridLayout(1, 3));// 1 Zeile, 3 Spalte
@@ -81,15 +85,15 @@ public class CommandoInput extends JFrame implements ActionListener {
 
 		// ScrollPane hinzufuegen
 		JScrollPane scrollPane = new JScrollPane(area);// Scroll Kanten
-		scrollPane.setPreferredSize(new Dimension(400, 400));
+		scrollPane.setPreferredSize(new Dimension(200, 200));
 
 		panel2.add(scrollPane);
 
 		// Inhalt des Frames zusammenbauen
-		setLayout(new BorderLayout());
-		add(panel1, BorderLayout.CENTER);
-		add(panel2, BorderLayout.NORTH);
-		setVisible(true);
+		console.setLayout(new BorderLayout());
+		console.add(panel1, BorderLayout.CENTER);
+		console.add(panel2, BorderLayout.NORTH);
+		console.setVisible(true);
 
 	}
 
@@ -502,6 +506,9 @@ public class CommandoInput extends JFrame implements ActionListener {
 	public void endGoalMessage(final Character ch) {
 		String msg = ch.getName() + ": Congratulations! Claim your Treasure!";
 		appendln(msg);
+	}
+	public JPanel getConsole(){
+		return console;
 	}
 
 	public static void main(String[] args) {

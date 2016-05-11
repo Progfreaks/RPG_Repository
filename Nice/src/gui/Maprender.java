@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import valueobject.guiobjects.*;
+import gui.guiobjects.*;
 import gui.EventCreator;
 import domain.DuD;
 
@@ -17,26 +17,23 @@ public class Maprender {
 	private static DuD game;
 	private EventCreator creator = new EventCreator(0); //JButton-Array (Spielfeld)
 	private BackLayer backLayer;
-	private RollButton rollButton;
 	private ButtonLayer buttonLayer;
 	
-	public Maprender(DuD game, BackLayer backLayer, ButtonLayer buttonLayer){
+	public Maprender(BackLayer backLayer, ButtonLayer buttonLayer){
 		this.game = game;
 		this.backLayer = backLayer;  // Haupthintergrundebene
 		this.buttonLayer = buttonLayer;
 		game.removePanel(0);
-		game.setRollButton(new RollButton());
 		
-		creator.getRollCall(game.getRollButton());
-		creator.getActionCalls(game.getButtonArray());
+		creator.getActionCalls(buttonLayer.getFieldSquares());
 		/**
 		JPanel menue = new JPanel();//Menue Layer
 		menue.setSize(300, 600); //Groesse des Menue Layers
-		backLayer.add(menue, BorderLayout.SOUTH);// Hinzufï¿½gen des Menuelayer, Layout unterer Bildschirmrand
+		backLayer.add(menue, BorderLayout.SOUTH);// Hinzufügen des Menuelayer, Layout unterer Bildschirmrand
 		*/
-		backLayer.addPanel(buttonLayer.getButtonLayer(), 0);//Hinzufï¿½gen des Buttonlayer
-		backLayer.addMenuBar(game.getMenuBar());
+		backLayer.addPanel(buttonLayer.getButtonLayer(), 0);//Hinzufügen des Buttonlayer
 		backLayer.setPanelVisible(0, true);
+		//backLayer.setPanelVisible(1, true);
 		refreshGUI();
 		
 	}

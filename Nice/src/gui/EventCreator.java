@@ -2,7 +2,11 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JButton;
+import javax.swing.JTextField;
 import valueobject.events.*;
 import domain.DuD;
 
@@ -26,7 +30,7 @@ public class EventCreator implements ActionListener {
 			game.processEvent(sevent);
 			}
 		else{
-			fieldSquares = game.getButtonArray();
+			
 			for(int i = 0; i < fieldSquares.length; i++){
 				for(int s = 0; s < fieldSquares[i].length; s++){
 					if(fieldSquares[i][s] == e.getSource()){
@@ -67,5 +71,9 @@ public class EventCreator implements ActionListener {
 	}
 	public void getRollCall(JButton RollButton){
 		RollButton.addActionListener(new EventCreator(5));
+	}
+	public void IOcall(JTextField console){
+		console.addActionListener(new EventCreator(6));
+		
 	}
 }

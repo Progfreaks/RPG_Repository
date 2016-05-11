@@ -1,50 +1,45 @@
 package domain;
-import javax.swing.*;
-import valueobject.guiobjects.*;
+
+
 
 import domain.DuD;
 import gui.*;
+import gui.guiobjects.BackLayer;
 
 public class GuiController {
 	private DuD game;
-	private BackLayer backLayer;
-	private RollButton rollButton;
 	private Maprender map;
+	private GuiManager gui;
 	public GuiController(DuD game){
-		
 		this.game = game;
 	}
-	public void renderMap(){
-	}
-	public void setbackLayer(BackLayer backLayer){
-		this.backLayer = backLayer;
-	}
-	public BackLayer getbackLayer(){
-	return this.backLayer;
-	}
+	
 	public void removePanel(int i){
-		backLayer.removePanel(i);
+		gui.removePanel(i);
 	}
-	public void addPanel(JPanel obj, int i){
-		backLayer.addPanel(obj, i);
+	
+	public void addPanel(Object obj, int i, String in){
+		gui.addPanel(obj, i, in);
 	}
-	public void newMaprender(DuD game, BackLayer backLayer, ButtonLayer buttonLayer){
-		map = new Maprender(game, backLayer, buttonLayer);
-	}
+	
 	public void refresh(){
-		backLayer.refresh();
-		map.refreshGUI();
+		gui.refresh();
 	}
-	public void setRollButton(RollButton rollButton){
-		this.rollButton = rollButton;
+	public void fillLayer(int index, int i, int s){
+		gui.fillLayer(index, i, s);
 	}
+	public void setGuiMgr(GuiManager mgr){
+		gui = mgr;
+	}
+	public void setPanelVisible(int i, boolean in){
+		gui.setPanelVisible(i, in);
+		
 	
-	public JMenuBar getMenuBar(){
-		return rollButton.getMenuBar();
 	}
-	
-	public JButton getRollButton(){
-		return rollButton.getRollButton();
+	public BackLayer getBackLayer(){
+		return gui.getBackLayer();
 	}
-
+	public void renderGUI(){
+		gui.renderGUI();
+	}
 }

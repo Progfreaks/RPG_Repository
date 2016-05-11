@@ -1,5 +1,6 @@
 package valueobject.events;
 
+
 import domain.DuD;
 import valueobject.Dice;
 

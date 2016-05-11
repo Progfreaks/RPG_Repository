@@ -6,7 +6,7 @@ import valueobject.character.Character;
 
 
 /**
- * Hier werden alle Gegner gespeichert.
+ * Hier werden alle Spieler gespeichert.
  * @author YOU_HEY
  *
  */
@@ -19,7 +19,7 @@ public final class EnemyArray {
 	private static Character enemy03;
 	private static Character enemy04;
 	
-	public static List<Character> list = new ArrayList<Character>();
+	public static ArrayList<Character> list = new ArrayList<Character>();
 	
 	public static void addPlayer(final Character character){
 		list.add(character);

@@ -1,9 +1,10 @@
 package domain;
 
 import valueobject.character.Character;
+import persistence.character.*;
 import persistence.character.CharacterData;
-import persistence.character.CharacterData.Skill;
 import domain.DuD;
+import persistence.character.CharacterData.Skill;
 import valueobject.PlayerArray;
 
 
@@ -26,7 +27,7 @@ public class CharacterManager {
 	
 	/**
 	 * Erzeugt einen Charakter.
-	 * @param data
+	 * @param pCharacter
 	 * @return
 	 */
 	public Character createCharacter(CharacterData data){
@@ -37,17 +38,11 @@ public class CharacterManager {
 		boolean isPlayer = Boolean.valueOf(data.getValue(data.ISPLAYER));
 		Skill[] skills = data.getSkill();
 		
-		character = new Character(name, hp,mp, isPlayer,skills, 0, 0); // 0 u. 0 sind x und y
-				
+		character = new Character(name, hp,mp, isPlayer,skills, 0, 0); // 0 u. 0 sind x und y				
 		
 		return character;
 	}
 	
-	/**
-	 * Erzeugt einen Gegner.
-	 * @param pCharacter
-	 * @return
-	 */
 	public Character createEnemy(CharacterData status){
 		String name = status.getValue(status.NAME);
 		int hp = Integer.valueOf(status.getValue(status.HP));
@@ -58,41 +53,17 @@ public class CharacterManager {
 		character = new Character(name, hp, mp,isPlayer,skills, 0, 0); // 0 u. 0 sind x und y
 		return enemy;
 	}
-	
-	
-	
-	/**
-	 * Setzt die Charakterkoodinaten.
-	 * @param x
-	 * @param y
-	 */
 	public void setCoords(int x, int y){
 		character.setCoords(x, y);
 	}
-	
-	/**
-	 * Gibt x-Koodinaten zurueck.
-	 * @return
-	 */
 	public int getPlayerXCoord(){
 		character = PlayerArray.getPlayer(0);
 		return character.getXCoord();
 	}
-	
-	/**
-	 * Gibt y-Koodinaten zurueck.
-	 * @return
-	 */
 	public int getPlayerYCoord(){
-		character = PlayerArray.getPlayer(0); //Hï¿½sslich, sollte weg
+		character = PlayerArray.getPlayer(0); //Hässlich, sollte weg
 		return character.getYCoord();
 	}
-	
-	/**
-	 * Nimmt einen Spieler aus PlayerArray anhand der entsprechenden Index-Nummer.
-	 * @param index
-	 * @return
-	 */
 	public Character getPlayer(final int index){
 		return PlayerArray.getPlayer(index);
 	}
