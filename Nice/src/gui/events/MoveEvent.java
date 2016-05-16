@@ -1,6 +1,5 @@
-package valueobject.events;
-import valueobject.fieldobjects.*;
-import domain.DuD;
+package gui.events;
+import gui.GuiManager;
 
 /**
  * Ben�tigt x u. y Werte der TestFigure, x u. y Werte des Freien Feldes.
@@ -9,20 +8,26 @@ import domain.DuD;
  * TestFigure.setCoords(s,i) aus dem fieldSquare Array
  */
 public class MoveEvent extends GameEvent {
-	private static DuD game;
-	private TestFigure player;
-	//private FieldObjects[][] fieldObjects;
+	
+	private GuiManager guiMgr;
 	private int xf, yf;
+	
 	public MoveEvent(int x, int y){
+		
 		this.xf = x;
 		this.yf = y;
-		game = DuD.getGame();
-		//this.fieldObjects = game.getFieldObjects();
-		//this.player = game.getPlayer();
+		guiMgr = new GuiManager();
 	}
 	@Override
 	public void process(){
-		game.recolour(xf, yf);
+		
+		guiMgr.repaintButton(xf, yf);
+
+		
+	}
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
 		
 	}
 

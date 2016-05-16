@@ -10,13 +10,13 @@ import javax.swing.JFrame;
  * @author YOU_HEY
  *
  */
-public class StartCharacterData extends JFrame{
+public class SetUp extends JFrame{
 
 	//private static final long serialVersionUID = 
 	
 	private static final long serialVersionUID = -8492414654249932472L;
 
-	public  StartCharacterData(String pTitle){
+	public  SetUp(String pTitle){
 		
 		super(pTitle);
 		setSize(new Dimension(700, 600));
@@ -30,6 +30,6 @@ public class StartCharacterData extends JFrame{
 	
 	public static void main(String args[]){
 
-		new StartCharacterData("Character data");
+		new SetUp("Character data");
 	}
 }

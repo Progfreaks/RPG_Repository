@@ -1,79 +1,191 @@
 package gui;
 
+import gui.events.FightEvent;
+import gui.events.GameEvent;
+import gui.events.MoveEvent;
+import gui.events.PickUpEvent;
+import gui.events.RollEvent;
+import gui.events.StartEvent;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
-import javax.swing.JTextField;
-import valueobject.events.*;
-import domain.DuD;
 
-
-
+/**
+ * Diese Klasse dient der Events-Erzeugung.
+ * @author YOU_HEY
+ *
+ */
 public class EventCreator implements ActionListener {
-	private int[][] boardarray;
-	private DuD game = null;
-	private JButton[][] fieldSquares;
-	private int eventType; // Index zum Auswerten des Events
-	public EventCreator(int eventType){
-		this.game = DuD.getGame(); // Getten des gameobjects
-		this.eventType = eventType; // Setten des EventsIndex
+
+	private int[][] boardMatrix;
+	private JButton[][] buttonMatrix;
+	private EVENT_TYPE eventType;
+	private GuiManager guiMgr;
+	Thread thread;
+
+	// Aufzaehlung fuer Event-Type
+	enum EVENT_TYPE {
+		DEFAULT, NEW_GAME, ROLL, MOVE, PICKUP, FIGHT;
 	}
-	public void actionPerformed(ActionEvent e){
-		//The loop tracks the clicked buttonposition
+
+	/**
+	 * Konstruktor
+	 * 
+	 * @param eventType
+	 */
+	public EventCreator(EVENT_TYPE eventType) {
+
+		this.eventType = eventType; // Setten des Events-Types
+		guiMgr = new GuiManager();
+
+	}
+
+	/**
+	 * Setzt die Events in die Buttons.
+	 * 
+	 * @param pButtons
+	 */
+	public void setActionCalls(JButton[][] pButtons) {
+
+		//Bekommt das Board-Matrix
+		boardMatrix = guiMgr.getBoardMatrix();
+		buttonMatrix = pButtons;
+
+		for (int i = 0; i < buttonMatrix.length; i++) {
+
+			for (int s = 0; s < buttonMatrix[i].length; s++) {
+
+				switch (boardMatrix[i][s]) {
+
+				case 0:
+					break; // Wall. No ActionEvent
+				case 1:
+					buttonMatrix[i][s].addActionListener(new EventCreator(
+							EVENT_TYPE.MOVE));
+					break; // Freies Feld. MoveEvent
+				case 2:
+					buttonMatrix[i][s].addActionListener(new EventCreator(
+							EVENT_TYPE.PICKUP));
+					break; // Item. MoveEvent + PickUpEvent
+				case 3:
+					buttonMatrix[i][s].addActionListener(new EventCreator(
+							EVENT_TYPE.FIGHT));
+					break;
+				}
+
+			}// <-- ende der for Schleife
+
+		}// <- ende der for Schleife
+
+	}
+
+	/**
+	 * Setzt das Start-Event in den Button.
+	 * 
+	 * @param StartButton
+	 */
+	public void setStartCall(JButton StartButton) {
+
+		StartButton.addActionListener(new EventCreator(EVENT_TYPE.NEW_GAME));
+
+
+	}
+
+	/**
+	 * Setzt das Roll-Event in den Button.
+	 * 
+	 * @param RollButton
+	 */
+	public void setRollCall(JButton RollButton) {
+
+		RollButton.addActionListener(new EventCreator(EVENT_TYPE.ROLL));
+
+	}
+
+	//	/**
+	//	 * 
+	//	 * @param button
+	//	 */
+	//	public void setEnterCall(JButton button) {
+	//		button.addActionListener(new EventCreator(EVENT_TYPE.ENTER));
+	//	}
+
+	/**
+	 * Wird diese Methode angerufen, wenn einen Button angeklickt wird.
+	 */
+	@SuppressWarnings("incomplete-switch")
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// The loop tracks the clicked buttonposition
 		int x = 0;
 		int y = 0;
-		if(eventType == 9){ //Zum abfangen des NewGame
-			GameEvent sevent = new StartEvent(); //game.removePanel(0);
-			game.processEvent(sevent);
-			}
-		else{
+
+
+		if (eventType == EVENT_TYPE.NEW_GAME) { // Zum abfangen des NewGame
+
+
+			GameEvent startEvent = new StartEvent(this);
+			thread = new Thread(startEvent);
+			thread.start();
+
+
+
+
+		} else {
+
+			buttonMatrix = guiMgr.getButtonMatrix();
 			
-			for(int i = 0; i < fieldSquares.length; i++){
-				for(int s = 0; s < fieldSquares[i].length; s++){
-					if(fieldSquares[i][s] == e.getSource()){
+			for (int i = 0; i < buttonMatrix.length; i++) {
+
+				for (int s = 0; s < buttonMatrix[i].length; s++) {
+
+					if (buttonMatrix[i][s] == e.getSource()) {
 						x = s;
 						y = i;
 					}
-				}
+				}// <- ende der for Schleife
+			}// <- ende der for Schleife
+
+			switch (eventType) {
+
+			case MOVE:
+				MoveEvent moveEvent = new MoveEvent(x, y);
+				moveEvent.process();
+				break;
+
+			case PICKUP:
+
+				GameEvent pickEvent = new PickUpEvent(x, y);
+				thread = new Thread(pickEvent);
+				thread.start();
+				break;
+
+			case FIGHT:
+
+				GameEvent fightEvent = new FightEvent(x, y);
+				thread = new Thread(fightEvent);
+				thread.start();
+				break;
+
+			case ROLL:
+				RollEvent rollEvent = new RollEvent();
+				thread = new Thread(rollEvent);
+				thread.start();
+
+
+				break;
+
+
+
 			}
-			switch(eventType){
-			case 1: GameEvent mevent = new MoveEvent(x, y); game.processEvent(mevent);
-					break;
-			case 2: GameEvent pevent = new PickUpEvent(x, y); game.processEvent(pevent); break;
-			case 3: GameEvent fevent = new FightEvent(x, y); game.processEvent(fevent); break;
-			case 5: GameEvent revent = new RollEvent(); game.processEvent(revent); break;
-			}
-		}
-		
-		
+		}// <- ende der if-else Abfrage
+
 	}
-	
-	public void getActionCalls(JButton[][] fieldSquares){ //Zuweisung der ActionListener und Events
-		this.boardarray = game.getBoardArray();
-		this.fieldSquares = fieldSquares;
-		for(int i = 0; i < fieldSquares.length; i++){
-			for(int s = 0; s < fieldSquares[i].length; s++){
-				switch(boardarray[i][s]){
-				case 0: break; //Wall. No ActionEvent
-				case 1: fieldSquares[i][s].addActionListener(new EventCreator(1)); break; //Freies Feld. MoveEvent
-				case 2: fieldSquares[i][s].addActionListener(new EventCreator(2)); break; //Item. MoveEvent + PickUpEvent
-				case 3: fieldSquares[i][s].addActionListener(new EventCreator(3)); break;
-				}
-			}
-		}
-	}
-	public void getStartCall(JButton StartButton){
-		StartButton.addActionListener(new EventCreator(9)); 
-		
-	}
-	public void getRollCall(JButton RollButton){
-		RollButton.addActionListener(new EventCreator(5));
-	}
-	public void IOcall(JTextField console){
-		console.addActionListener(new EventCreator(6));
-		
-	}
+
+
+
+
+
 }

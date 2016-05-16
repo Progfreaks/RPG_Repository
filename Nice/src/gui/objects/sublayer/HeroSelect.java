@@ -1,4 +1,4 @@
-package gui.guiobjects.sublayer;
+package gui.objects.sublayer;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;

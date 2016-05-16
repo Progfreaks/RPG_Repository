@@ -1,109 +1,66 @@
 package domain;
 
-import valueobject.events.GameEvent;
-import valueobject.fieldobjects.*;
-import javax.swing.*;
-import domain.*;
-import gui.guiobjects.*;
-import valueobject.PlayerArray;
-import valueobject.character.Character;
-import gui.CommandoInput;
-import gui.GuiManager;
+import gui.MyConsole;
+import gui.events.GameEvent;
 import persistence.character.CharacterData;
-import java.awt.image.BufferedImage;
+import valueobject.character.Character;
 
+
+/**
+ * einziger Absprechpartner für GUI.
+ * @author YOU_HEY
+ *
+ */
 public class DuD {
-	public static DuD game = null;
-	private MapHandling BoardMgr = null;
-	private GuiController GuiControll = null;
-	private CharacterManager CharMgr = null;
-	private BattleManager BattleMgr = null;
-	private GameCycle cycle = null;
-	private CommandoInput console = null;
-	private CentralSave save = null;
-	public DuD(){
-		this.BoardMgr = new MapHandling(this);
-		this.GuiControll = new GuiController(this);
-		this.CharMgr = new CharacterManager(this);
-		this.BattleMgr = new BattleManager(this);
-		this.cycle = new GameCycle(this);
-		this.save = new CentralSave();
-		
-	}
-	
-		
-	
 
-	// verteilt Anfragen an
-	// - BoardManager
-	// - PlayerManager
-	// - GameLogic
-	// - ...
+	public static DuD game = null;
+
+	private CharacterManager CharMgr = null;
+	private GameCycle cycle = null;
+	private  MyConsole console = null;
+
+
+
+
+	/**
+	 * Konstruktor
+	 */
+	public DuD(){
+
+		this.CharMgr = new CharacterManager(this);
+		this.cycle = new GameCycle(this);
+	}
+
 	
-	public void processEvent(GameEvent ev) {
-		ev.process();
+	public void setConsole(MyConsole console){
+		this.console = console;
+	}
+
+	public MyConsole getConsole(){
+		return console;
 	}
 	
+	
+	public void processEvent(GameEvent event) {
+
+		event.process();
+	}
+
 	public static DuD getGame(){
 
 		return game;
 	}
-	
+
+
+
 	public void setGame(DuD game){
 		this.game = game;
 	}
-	
-	public BattleManager getBattleMgr(){
-		return this.BattleMgr;
-	}
-	
-	public int[][] getBoardArray(){
-		return BoardMgr.getBoardArray();
-	}
-	
 
-	
-	public void recolour(int xf,int yf){
-		BoardMgr.recolour(xf, yf);
-	}
-	
-	public void renderMap(){
-		BoardMgr.render();
-		
-	}
-	public void renderChest(){
-		BoardMgr.renderChest();
-	}
-	public void callForAction(int diceNum){
-		BoardMgr.callForAction(diceNum);
-	}
-	
-	public void removePanel(int i){
-		GuiControll.removePanel(i);
-	}
-	
-	public void addPanel(Object obj, int i, String in){
-		GuiControll.addPanel(obj, i, in);
-	}
-	public void refreshGUI(){
-		GuiControll.refresh();
-	}
-	public void fillLayer(int index, int i, int s){
-		GuiControll.fillLayer(index, i, s);
-	}
-	public void setGuiMgr(GuiManager mgr){
-		GuiControll.setGuiMgr(mgr);
-	}
-	public BackLayer getBackLayer(){
-		return GuiControll.getBackLayer();
-	}
-	public void renderGUI(){
-
-		GuiControll.renderGUI();
-	}
-		
 	public void setCharCoords(int x, int y){
+
 		CharMgr.setCoords(x, y);
+
 	}
 	public int getXCharCoord(){
 		return CharMgr.getPlayerXCoord();
@@ -117,48 +74,33 @@ public class DuD {
 	public Character getPlayer(final int index){
 		return CharMgr.getPlayer(index);
 	}
+
+	public void addPlayer(final Character c){
+		CharMgr.addPlayer(c);
+	}
+
+	public Character getEnemy(final int index){
+		return CharMgr.getEnemy(index);
+	}
+
+	public void addEnemy(final Character c){
+		CharMgr.addEnemy(c);
+	}
+	
+	public Character createPlayer(CharacterData data){
+		return CharMgr.createCharacter(data);
+	}
 	public Character createEnemy(CharacterData pCharacter){
 		return CharMgr.createCharacter(pCharacter);
 	}
-	public void nextRound(){
-		cycle.nextRound();
+	public int nextRound(){
+
+		return cycle.nextRound();
 	}
 	public void setIndicator(boolean in){
 		cycle.setIndicator(in);
 	}
-	public BufferedImage loadImg(String path){
-		return save.loadImg(path);
-	}
-	
-	public void newGame(){
-		Character player = null;
-		
-		
-		//CharacterManager erzeugt einen Speiler
-		CharacterManager cm = game.getCharMgr();
-		System.out.println("moin");
-		boolean check = true;
 
-		do {
 
-			try {
-				player = cm.createCharacter(CentralSave.console.selectCharacter());
-				check = false;
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				System.out.print("bitte nur eine Zahl eingeben\n\n");
-			}
-
-		} while (check);
-		
-		
-		PlayerArray.addPlayer(player);//Der ausgewaehlte Player ist ins Array hinzugefuegt.
-	    renderMap();
-		
-		
-	
-	}
-
-	
 }
 

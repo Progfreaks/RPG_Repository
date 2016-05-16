@@ -1,99 +1,142 @@
 package gui;
 
-import gui.guiobjects.*;
-import javax.swing.*;
-import gui.*;
-import domain.CentralSave;
-import domain.DuD;
+import gui.EventCreator.EVENT_TYPE;
+import gui.objects.BackFrame;
+import gui.objects.ButtonPanel;
+import gui.objects.MenuPanel;
 
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public class GuiManager {
-	private BackLayer backLayer;
-	private ButtonLayer buttonLayer;
-	private MenuLayer menuLayer;
-	private CommandoInput console;
-	private Maprender map;
-	private static DuD game;
-	
-	public GuiManager(BackLayer bL){
-		this.backLayer = bL;
+
+	private static BackFrame backFrame;
+	private MapHandler mapHdr;
+
+	/**
+	 * Konstruktor dieser Klasse.
+	 * 
+	 * @param centralGui
+	 */
+	public GuiManager() {
 		
+		mapHdr = new MapHandler();
+	}
+
+	
+	
+	
+	public void paintButtonPanel(){
+		mapHdr.paintButtonPanel();
 	}
 	
+	public void setButtonPanel(ButtonPanel panel) {
+		mapHdr.setButtonPanel(panel); 
+	}
+	
+	public ButtonPanel getButtonPanel() {
+		return mapHdr.getButtonPanel();
+	}
+
+	public void setButtonMatrix(JButton[][] buttons){
+		mapHdr.setButtonMatrix(buttons);
+	}
+	
+	public JButton[][] getButtonMatrix(){
+		return mapHdr.getButtonMatrix();
+	}
+	
+	public int[][] getBoardMatrix(){
+		return mapHdr.getBoardMatrix();
+	}
+	
+
 	/**
-	 * i = index in der panellist
+	 * Setzt Backlayer.
+	 * 
+	 * @param backLayer
+	 */
+	public void setBackFrame(BackFrame backLayer) {
+
+		this.backFrame = backLayer;
+
+	}
+
+	/**
+	 * Gibt Backlayer zurueck.
+	 * 
+	 * @return
+	 */
+	public BackFrame getBackFrame() {
+
+		return this.backFrame;
+
+	}
+
+	/**
+	 * Fuegt ein Panel in Backlayer.
+	 * 
+	 * @param panel
 	 * @param i
 	 */
-	public void removePanel(int i){
-		backLayer.removePanel(i);	
+	public void addPanel(JPanel panel, int i, String in) {
+
+		backFrame.addPanel(panel, i, in);
+
 	}
-	
-	public void addPanel(Object obj, int i, String in){
-		JPanel p = (JPanel) obj;
-		backLayer.addPanel(p, i, in);
-	}
-	
-	
-	
+
 	/**
-	 * Macht das Frame sichtbar, true = anzeigen
-	 * @param in
-	 */
-	public void setVisible(boolean in){
-		backLayer.setVisible(in);
-	}
-	
-	/**
-	 * i = index des anzuzeigenden panel
+	 * Entfernt ein Panel aus Backlayer.
+	 * 
 	 * @param i
-	 * @param in
 	 */
-	public void setPanelVisible(int i, boolean in){
-		backLayer.setPanelVisible(i, in);
+	public void removePanel(int i) {
+
+		backFrame.removePanel(i);
+
+	}
+
+
+
+	public void createMainPanel(ButtonPanel buttonLayer,MenuPanel menuLayer) {
+		backFrame.createMainPanel(buttonLayer,  menuLayer);
+	}
+
+	public void createOpeningPanel(){
+		backFrame.createOpeningPanel();
 	}
 	
-	public void refresh(){
+
+	public void paintMoveRange(int num){
+
+		mapHdr.paintMoveRange(num);
+		removePanel(0);
+		addPanel(mapHdr.getButtonPanel(), 0,"push, height 400:400:400, width 400:400:400");
+		BackFrame backLayer = getBackFrame();
 		backLayer.refresh();
 	}
 	
-	/**
-	 * index = zum switchen der verschiedenen Felder, i und s = array positions
-	 * @param index
-	 * @param i
-	 * @param s
-	 */
-	public void fillLayer(int index, int i, int s){
-		buttonLayer.fillLayer(index, i, s);
+	
+	
+	public void repaintButton(int xf, int yf){
+		mapHdr.repaintButton(xf, yf);
+		
+		removePanel(0);
+		addPanel(mapHdr.getButtonPanel(), 0,
+				"push, height 400:400:400, width 400:400:400");
+		BackFrame backLayer = getBackFrame();
+		backLayer.refresh();
+	}
+
+	public void refresh() {
+
+		backFrame.refresh();
+
 	}
 	
-	public JPanel getButtonLayer(){
-		return buttonLayer.getButtonLayer();
-	}
-	public JPanel getMenuLayer(){
-		return menuLayer.getMenuLayer();
+	public void setNewEvent(JButton button){
+		button.addActionListener(new EventCreator(EVENT_TYPE.NEW_GAME));
 	}
 	
-	public void newMaprender(BackLayer backLayer, ButtonLayer buttonLayer){
-		map = new Maprender(backLayer, buttonLayer);
-	}
-	public void setbackLayer(BackLayer bL){
-		this.backLayer = bL;
-	}
-	public BackLayer getBackLayer(){
-		return backLayer;
-	}
-	public void renderGUI(){
-		buttonLayer = new ButtonLayer();
-		menuLayer = new MenuLayer();
-		console = new CommandoInput();
-		CentralSave.setConsole(console);
-		backLayer.createMainPanel(buttonLayer, console, menuLayer);
-	}
-	
-	public static void main(String[] args){
-		game = new DuD();
-		game.setGame(game);
-		new StartGui();
-	}
 	
 }

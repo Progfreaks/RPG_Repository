@@ -9,10 +9,12 @@ import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.List;
 import java.awt.Panel;
+import java.awt.Rectangle;
 import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,25 +25,23 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import domain.BattleManager;
-import domain.CentralSave;
 import domain.CharacterManager;
 import domain.DuD;
 import domain.exceptions.InvalidNumberException;
 import persistence.character.CharacterData;
 import persistence.character.CharacterDataMap;
 import valueobject.Dice;
-import valueobject.PlayerArray;
 import valueobject.character.Character;
-import gui.guiobjects.BackLayer;
 
-public class CommandoInput implements ActionListener {
+public class MyConsole implements ActionListener {
 
 	// ----------------------
 	private static DuD game;
+
 	static Character player = null;
 	static Character enemy = null;
 	private JPanel console = null;
+
 	static CharacterManager cm;
 	private static CharacterDataMap map = CharacterDataMap.getInstance();
 
@@ -58,17 +58,36 @@ public class CommandoInput implements ActionListener {
 
 	JTextArea area = new JTextArea();
 	JTextField field = new JTextField();
+	JScrollPane scrollPane;
+	JButton enterButton;
+	String title;
 
-	public CommandoInput() {
+	public MyConsole() {
+
 		game = DuD.getGame();
 		this.console = new JPanel();
 		initialize();
-		
+
 	}
+
+	public JButton getButton() {
+		return enterButton;
+	}
+
+	public String getName() {
+		return title;
+	}
+	
+	public void printMsg(String s){
+		appendln(s);
+	}
+
+
+
+	
 
 	private void initialize() {
 
-		
 		console.setSize(800, 400);
 		area.setEditable(false);
 		JPanel panel1 = new JPanel();
@@ -77,7 +96,7 @@ public class CommandoInput implements ActionListener {
 		inputLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel1.add(inputLabel);
 		panel1.add(field);
-		JButton enterButton = new JButton("Enter");
+		enterButton = new JButton("Enter");
 		enterButton.addActionListener(this);
 		panel1.add(enterButton);
 
@@ -85,7 +104,7 @@ public class CommandoInput implements ActionListener {
 
 		// ScrollPane hinzufuegen
 		JScrollPane scrollPane = new JScrollPane(area);// Scroll Kanten
-		scrollPane.setPreferredSize(new Dimension(200, 200));
+		scrollPane.setPreferredSize(new Dimension(400, 200));
 
 		panel2.add(scrollPane);
 
@@ -97,49 +116,73 @@ public class CommandoInput implements ActionListener {
 
 	}
 
-	private boolean stop = true;
+	public static boolean stop = true;
+
+	int num = 0;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("tipped");
 		changeValueOfStop();
+		autoScroll();
 
+	}
+
+	private void autoScroll() {
+		// scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum()+3);
+		// scrollPane.getVerticalScrollBar().setValue(0);
+		// scrollPane.getViewport().scrollRectToVisible(new Rectangle(0,
+		// Integer.MAX_VALUE - 1, 1, 1));
+
+		area.setCaretPosition(area.getDocument().getLength());
 	}
 
 	private void appendln(String pText) {
+
 		area.append(pText + "\n");
-
+		autoScroll();
 	}
-	
-	private void append(String pText){
+
+	private void append(String pText) {
 		area.append(pText);
+		autoScroll();
 	}
 
-	private int getNumber() {
-		return Integer.valueOf(field.getText());
+	private int getNumber() {// TODO Exception
+		
+
+		int num = Integer.valueOf(field.getText());
+		field.setText("");
+		return num;
 	}
 
-	private void changeValueOfStop() {
+	public void changeValueOfStop() {
 		stop = !stop;
 	}
 
+	/**
+	 * Wartet bis Enter angeklickt wird.
+	 */
 	private void waitForClick() {
 		while (stop) {
 			try {
-				Thread.sleep(200);
-			} catch (InterruptedException e) {
+				Thread.sleep(1000);
+		} catch (InterruptedException e) {
 			}
 		}
+			
+		
+			
 		changeValueOfStop();
+		
 	}
 
 	public CharacterData selectCharacter() {
 
-		appendln("Willkommen zu unserem Duengeon!! (ENTER)\n");
-
+		appendln("Willkommen zu unserem Duengeon!! (enter)\n");
 		waitForClick();
 
-		appendln("Charakter auswaehlen (ENTER)\n");
+		appendln("Charakter auswaehlen (enter)\n");
 
 		int characterId = 0;
 
@@ -161,7 +204,16 @@ public class CommandoInput implements ActionListener {
 
 		status = map.getCharacterData(characterId - 1);
 
-		appendln("\nLos geht's mit dem " + status.getValue(status.NAME) + "!!\n");
+		appendln("\nLos geht's mit dem " + status.getValue(status.NAME)
+				+ "!!\n");
+		
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return status;
 	}
@@ -200,9 +252,15 @@ public class CommandoInput implements ActionListener {
 						+ "MP/Schaden*" + skill.getDamage());
 			}
 			appendln("4 : Aufladen\n");
+			autoScroll();
+			waitForClick();
 
 			// Bekommt das Kommando
+			
+			
+			//------TODO-------------
 			int command = getNumber();
+			
 
 			switch (command) {
 			case 1:
@@ -217,6 +275,8 @@ public class CommandoInput implements ActionListener {
 
 				// Bekommt entsprechendes Mehrfach
 				multi = skills[command - 1].getDamage();
+				System.out.println(ch.getName());
+				System.out.println(checkMP(ch, useMP));
 
 				if (checkMP(ch, useMP)) {
 
@@ -230,17 +290,19 @@ public class CommandoInput implements ActionListener {
 
 			case 4:
 				appendln("Aufladen\n");
-				ch.setMP(Dice.diceForMP(ch));
+				ch.setMP(diceForMP(ch));
 				check = false;
 				break;
 			default:
 				appendln("false Eingabe. bitte noch mal Kommando auswaehlen");
+				check = false;
 				break;
 			}// <- Ende switch
 
 		}// <- Ende der while Schleife
 
 		resetValue();
+		autoScroll();
 		return damage;
 
 	}
@@ -297,13 +359,11 @@ public class CommandoInput implements ActionListener {
 			appendln("-----Runde " + (++round) + " ----- (ENTER)\n");
 			waitForClick(); // ---------Runde fuer Spieler-------------
 			appendln(c01.toString());
+			System.out.println(c01.getMP());
 
 			// damage = c01.attack();
-
 			damage = c01.isPlayer() ? selectCommandMessage(c01)
 					: diceForAtk(c01);
-			
-			
 
 			if (damage != 0) {
 
@@ -331,6 +391,7 @@ public class CommandoInput implements ActionListener {
 
 			appendln(c01.toString());
 			appendln("Naechste Runde (ENTER) > \n");
+			autoScroll();
 			waitForClick();
 		}
 
@@ -349,9 +410,8 @@ public class CommandoInput implements ActionListener {
 	private void roundMessageShowStatus(final int damage,
 			final Character character) {
 
-		append(character.getName() + " kriegt " + damage
-				+ " Schaden! " + character.getLife() + "/"
-				+ character.getMaxLife() + " -> ");
+		append(character.getName() + " kriegt " + damage + " Schaden! "
+				+ character.getLife() + "/" + character.getMaxLife() + " -> ");
 
 		character.setLife(-damage);
 
@@ -361,28 +421,49 @@ public class CommandoInput implements ActionListener {
 		waitForClick();
 	}
 
-	public static int diceForAtk(final Character ch) {
+	/**
+	 * Wuerfeln fuer MP Aufladen
+	 * 
+	 * @param ch
+	 * @return
+	 */
+	public int diceForMP(final Character ch) {
+
+		diceMessage(ch);
+		int diceNum01 = Dice.getDiceNummer();
+		int mp01 = showNumMessage(diceNum01);
+
+		diceMessage(ch);
+		int diceNum02 = Dice.getDiceNummer();
+		int mp02 = showNumMessage(diceNum02);
+
+		int totalMP = chargeMPMessage(mp01, mp02);
+
+		return totalMP;
+
+	}
+
+	public int diceForAtk(final Character ch) {
 
 		int totalDamage = 0;
 
-		CentralSave.console.diceMessage(ch);
+		diceMessage(ch);
 
 		int diceNum01 = Dice.getDiceNummer();
 
-		int damage01 = CentralSave.console.validDiceNumMessage(diceNum01);
+		int damage01 = validDiceNumMessage(diceNum01);
 		if (damage01 == 0)
 			return 0;
 
-		CentralSave.console.diceMessage(ch);
+		diceMessage(ch);
 
 		int diceNum02 = Dice.getDiceNummer();
 
-		int damage02 = CentralSave.console.validDiceNumMessage(diceNum02);
+		int damage02 = validDiceNumMessage(diceNum02);
 		if (damage02 == 0)
 			return 0;
 
-		totalDamage = CentralSave.console.totalDamageMessage(damage01,
-				damage02, ch);
+		totalDamage = totalDamageMessage(damage01, damage02, ch);
 
 		return totalDamage;
 	}
@@ -398,6 +479,7 @@ public class CommandoInput implements ActionListener {
 				+ "/2) (ENTER) >" : ch.getName() + " wuerfelt (" + (count++)
 				+ "/2) (ENTER)) >";
 		appendln(message);
+		autoScroll();
 		waitForClick();
 		if (count == 3)
 			count = 1;
@@ -435,7 +517,9 @@ public class CommandoInput implements ActionListener {
 	 * @return
 	 */
 	public int showNumMessage(final int num) {
+		
 		appendln("\nDie Nummer ist " + num + " (ENTER)\n");
+		autoScroll();
 		waitForClick();
 		return num;
 	}
@@ -466,12 +550,31 @@ public class CommandoInput implements ActionListener {
 			final Character ch) {
 		double dTotalDamage = ((double) (d01 * d02)) * multi;
 		int iTotalDamage = (int) dTotalDamage;
-		appendln("Der Schaden ist (" + d01 + " * " + d02 + ") * " + multi + " = "
-				+ iTotalDamage + "\n");
+		appendln("Der Schaden ist (" + d01 + " * " + d02 + ") * " + multi
+				+ " = " + iTotalDamage + "\n");
 		multi = 1.0;
 		return iTotalDamage;
 	}
 
+	
+
+	/**
+	 * Wuerfeln fuer die Bewergung.
+	 * 
+	 * @param ch
+	 * @param rounds
+	 * @return
+	 */
+	public int diceForRound(Character ch, int rounds) {
+		
+		roundDiceMessage(ch, rounds);
+		Random random = new Random();
+		int diceNumRound = random.nextInt(5) + 1;
+		showNumMessage(diceNumRound);
+		return diceNumRound;
+		
+	}
+	
 	/**
 	 * Wenn aud GUI Roll-Button angeklickt wird, dann dies Methode aufgerufen.
 	 * 
@@ -479,10 +582,15 @@ public class CommandoInput implements ActionListener {
 	 * @param rounds
 	 */
 	public void roundDiceMessage(final Character ch, int rounds) {
+
 		if (rounds <= 1) {
+
 			String msg = ch.getName() + ": Rundenbeginn! Bitte wuerfel (ENTER)";
 			appendln(msg);
+			autoScroll();
+
 			waitForClick();
+
 		} else {
 			String msg = ch.getName() + ": Runde: " + rounds
 					+ ". Bitte wuerfel (ENTER)";
@@ -507,7 +615,8 @@ public class CommandoInput implements ActionListener {
 		String msg = ch.getName() + ": Congratulations! Claim your Treasure!";
 		appendln(msg);
 	}
-	public JPanel getConsole(){
+
+	public JPanel getConsole() {
 		return console;
 	}
 
