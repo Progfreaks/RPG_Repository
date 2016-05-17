@@ -28,7 +28,7 @@ public class CharacterDataMap implements Serializable,ICharacterDefs{
 	// Singleton Objekt. Gewaehrleistet dass es nur eine Instanz exsistiert.
 	private static CharacterDataMap singleton;
 	
-	// Vermeidet dass die Instanz dieser Klasse von anderen Klassen erzeugt wird.
+	// Vermeidet dass die Instanz dieser Klasse von aussen erzeugt wird.
 	private CharacterDataMap(){}
 	
 	/**

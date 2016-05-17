@@ -1,7 +1,7 @@
 package gui.events;
 
 import gui.GuiManager;
-import gui.MyConsole;
+import gui.GameConsole;
 import domain.DuD;
 import valueobject.Dice;
 
@@ -21,7 +21,7 @@ public class RollEvent extends GameEvent {
 //		console.printMsg("from process");
 		diceNum = game.nextRound();
 		
-		GuiManager guiMgr = new GuiManager();
+		GuiManager guiMgr = GuiManager.getInstance();
 		guiMgr.paintMoveRange(diceNum);
 		
 	}

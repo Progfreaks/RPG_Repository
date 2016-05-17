@@ -1,6 +1,6 @@
 package domain;
 
-import gui.MyConsole;
+import gui.GameConsole;
 import gui.events.GameEvent;
 import persistence.character.CharacterData;
 import valueobject.character.Character;
@@ -13,32 +13,39 @@ import valueobject.character.Character;
  */
 public class DuD {
 
-	public static DuD game = null;
-
 	private CharacterManager CharMgr = null;
 	private GameCycle cycle = null;
-	private  MyConsole console = null;
+	private  GameConsole console = null;
+	private static DuD singleton;
 
 
 
-
-	/**
-	 * Konstruktor
-	 */
-	public DuD(){
-
+	// Vermeidet dass die Instanz dieser Klasse von aussen erzeugt wird.
+	private DuD(){
 		this.CharMgr = new CharacterManager(this);
 		this.cycle = new GameCycle(this);
 	}
+	
+	
+	/**
+	 * Wenn es keine Instanz exsistiert, dann wird eine Instanz erzeugt. Wenn 
+	 * existiert, dann gibt die zurück.
+	 * 
+	 * @return
+	 */
+	public static DuD getGame(){
+		if(singleton == null) singleton = new DuD();
+		return singleton;
+	}
 
 	
-	public void setConsole(MyConsole console){
+	public void setConsole(GameConsole console){
 		this.console = console;
 	}
 
-	public MyConsole getConsole(){
-		return console;
-	}
+//	public GameConsole getConsole(){
+//		return console;
+//	}
 	
 	
 	public void processEvent(GameEvent event) {
@@ -46,16 +53,16 @@ public class DuD {
 		event.process();
 	}
 
-	public static DuD getGame(){
+//	public static DuD getGame(){
+//
+//		return game;
+//	}
 
-		return game;
-	}
 
 
-
-	public void setGame(DuD game){
-		this.game = game;
-	}
+//	public void setGame(DuD game){
+//		this.game = game;
+//	}
 
 	public void setCharCoords(int x, int y){
 

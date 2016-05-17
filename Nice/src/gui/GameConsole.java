@@ -1,23 +1,14 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Container;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.GridLayout;
-import java.awt.Label;
-import java.awt.List;
-import java.awt.Panel;
-import java.awt.Rectangle;
-import java.awt.TextField;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,34 +16,30 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import domain.CharacterManager;
-import domain.DuD;
-import domain.exceptions.InvalidNumberException;
+import net.miginfocom.swing.MigLayout;
 import persistence.character.CharacterData;
 import persistence.character.CharacterDataMap;
 import valueobject.Dice;
 import valueobject.character.Character;
 
-public class MyConsole implements ActionListener {
+public class GameConsole implements ActionListener {
 
-	// ----------------------
-	private static DuD game;
 
 	static Character player = null;
 	static Character enemy = null;
 	private JPanel console = null;
-
-	static CharacterManager cm;
 	private static CharacterDataMap map = CharacterDataMap.getInstance();
 
-	int useMP;
+	private int useMP;
 
-	String skillName;
+	private String skillName;
 
-	double multi;
+	private double multi;
 
 	// Zaehler. wie viel mal Wuerfel geworfen ist.
 	private int count = 1;
+	
+	private static GameConsole singleton;
 
 	// ----------------------
 
@@ -62,12 +49,14 @@ public class MyConsole implements ActionListener {
 	JButton enterButton;
 	String title;
 
-	public MyConsole() {
-
-		game = DuD.getGame();
+	private GameConsole() {
 		this.console = new JPanel();
 		initialize();
-
+	}
+	
+	public static GameConsole getInstance(){
+		if(singleton == null) singleton = new GameConsole();
+		return singleton;
 	}
 
 	public JButton getButton() {
@@ -91,12 +80,21 @@ public class MyConsole implements ActionListener {
 		console.setSize(800, 400);
 		area.setEditable(false);
 		JPanel panel1 = new JPanel();
+		
+		
+		
 		panel1.setLayout(new GridLayout(1, 3));// 1 Zeile, 3 Spalte
 		JLabel inputLabel = new JLabel("Eingabe ->  ");
+		
+		
 		inputLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel1.add(inputLabel);
 		panel1.add(field);
 		enterButton = new JButton("Enter");
+		
+		panel1.setOpaque(true);
+		
+		
 		enterButton.addActionListener(this);
 		panel1.add(enterButton);
 
@@ -107,7 +105,8 @@ public class MyConsole implements ActionListener {
 		scrollPane.setPreferredSize(new Dimension(400, 200));
 
 		panel2.add(scrollPane);
-
+		panel2.setOpaque(true);
+		panel2.setBackground(Color.BLACK);
 		// Inhalt des Frames zusammenbauen
 		console.setLayout(new BorderLayout());
 		console.add(panel1, BorderLayout.CENTER);

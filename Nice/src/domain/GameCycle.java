@@ -1,6 +1,6 @@
 package domain;
 import valueobject.character.Character;
-import gui.MyConsole;
+import gui.GameConsole;
 
 import java.io.*;
 
@@ -21,6 +21,7 @@ public class GameCycle {
 	private static int rounds;
 	private Dice playDice;
 	private static DuD game;
+	private GameConsole console;
 	
 	
 	public GameCycle(DuD game){
@@ -29,6 +30,7 @@ public class GameCycle {
 		this.rounds = 1;
 		playDice = new Dice();
 		this.game = game;
+		console = GameConsole.getInstance();
 		
 	}
 	
@@ -51,7 +53,7 @@ public class GameCycle {
     		
     		diceNum = 0;
     		player = game.getPlayer(0);
-    		MyConsole console = game.getConsole();
+    		
     		
     		diceNum = console.diceForRound(player, rounds);
     		rounds++;
@@ -62,7 +64,7 @@ public class GameCycle {
     		
     		player = game.getPlayer(0);
     		 diceNum = 0;
-    		diceNum = game.getConsole().diceForRound(player, rounds);
+    		diceNum = console.diceForRound(player, rounds);
     		rounds++;
     	}
     	

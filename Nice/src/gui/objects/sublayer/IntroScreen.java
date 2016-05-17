@@ -1,6 +1,7 @@
 package gui.objects.sublayer;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +26,8 @@ public class IntroScreen {
 		JPanel selectLayer = new JPanel();
 		single = new JButton("Singleplayer");
 		multi = new JButton("Multiplayer");
+		single.setBackground(Color.RED);
+		single.setForeground(Color.BLACK);
 		selectLayer.setLayout(new BorderLayout());
 		selectLayer.add(single, BorderLayout.WEST);
 		selectLayer.add(multi, BorderLayout.EAST);

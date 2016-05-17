@@ -1,50 +1,48 @@
 package gui;
 
-import gui.EventCreator.EVENT_TYPE;
 import gui.objects.BackFrame;
 import gui.objects.ButtonPanel;
 import gui.objects.MenuPanel;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class GuiManager {
 
-	private static BackFrame backFrame;
+	private BackFrame backFrame;
 	private MapHandler mapHdr;
+	private static GuiManager singleton;
 
-	/**
-	 * Konstruktor dieser Klasse.
-	 * 
-	 * @param centralGui
-	 */
-	public GuiManager() {
+	// Vermeidet dass die Instanz dieser Klasse von anderen Klassen erzeugt wird.
+	private GuiManager() {
 		
-		mapHdr = new MapHandler();
+		mapHdr = MapHandler.getInstance();
 	}
 
+	// Singleton Objekt. Gewaehrleistet dass es nur eine Instanz exsistiert.
+	public static GuiManager getInstance(){
+		if(singleton == null) singleton = new GuiManager();
+		return singleton;
+	}
 	
 	
-	
+	/**
+	 * Erstellt das Buttonpanel, disabled alle Buttons.
+	 */
 	public void paintButtonPanel(){
 		mapHdr.paintButtonPanel();
 	}
 	
-	public void setButtonPanel(ButtonPanel panel) {
-		mapHdr.setButtonPanel(panel); 
-	}
-	
+	/**
+	 * Getter-Methode feur das Buttonpanel.
+	 * @return
+	 */
 	public ButtonPanel getButtonPanel() {
 		return mapHdr.getButtonPanel();
 	}
 
-	public void setButtonMatrix(JButton[][] buttons){
-		mapHdr.setButtonMatrix(buttons);
-	}
+
 	
-	public JButton[][] getButtonMatrix(){
-		return mapHdr.getButtonMatrix();
-	}
+
 	
 	public int[][] getBoardMatrix(){
 		return mapHdr.getBoardMatrix();
@@ -134,9 +132,7 @@ public class GuiManager {
 
 	}
 	
-	public void setNewEvent(JButton button){
-		button.addActionListener(new EventCreator(EVENT_TYPE.NEW_GAME));
-	}
+	
 	
 	
 }

@@ -6,9 +6,9 @@ import javax.swing.JPanel;
 
 public class MenuPanel {
 	
-	JPanel menuPanel;
-	JMenuBar menuBar;
-	JButton rollButton;
+	private JPanel menuPanel;
+	private JMenuBar menuBar;
+	private JButton rollButton;
 	private int rounds;
 	
 	/**

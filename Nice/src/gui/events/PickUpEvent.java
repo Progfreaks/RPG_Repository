@@ -1,4 +1,5 @@
 package gui.events;
+import gui.GameConsole;
 import gui.GuiManager;
 import domain.DuD;
 
@@ -15,16 +16,14 @@ public class PickUpEvent extends GameEvent {
 		this.x = x;
 		this.y = y;
 		game = DuD.getGame();
-		guiMgr = new GuiManager();
+		guiMgr = GuiManager.getInstance();
 		guiMgr.repaintButton(x, y);
 	}
 	
 	@Override
 	public void process(){
 		game.setIndicator(true);
-		game.getConsole().endGoalMessage(game.getPlayer(0));
-		//game.recolour(x, y);
-		//game.renderChest();
+		GameConsole.getInstance().endGoalMessage(game.getPlayer(0));
 	}
 	
 	@Override

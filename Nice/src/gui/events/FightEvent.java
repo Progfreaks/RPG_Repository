@@ -1,7 +1,7 @@
 package gui.events;
 
 import gui.GuiManager;
-import gui.MyConsole;
+import gui.GameConsole;
 import persistence.character.CharacterDataMap;
 import domain.CharacterManager;
 import valueobject.character.Character;
@@ -22,7 +22,7 @@ public class FightEvent extends GameEvent {
 		this.xf = x;
 		this.yf = y;
 		game = DuD.getGame();
-		guiMgr = new GuiManager();
+		guiMgr = GuiManager.getInstance();
 		guiMgr.repaintButton(x, y);
 		
 	}
@@ -36,7 +36,7 @@ public class FightEvent extends GameEvent {
 		Character enemy = game.createEnemy(map.getCharacterData(5));
 		game.addEnemy(enemy);
 		this.index++;
-		MyConsole console = game.getConsole();
+		GameConsole console = GameConsole.getInstance();
 		console.roundMessage(player, enemy);
 	}
 

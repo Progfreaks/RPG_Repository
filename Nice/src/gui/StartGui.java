@@ -15,16 +15,16 @@ public class StartGUI {
 	 */
 	public StartGUI() {
 
-		DuD game = new DuD();
-		guiMgr = new GuiManager();
+		//DuD game = new DuD();
+		DuD.getGame();
+		GameConsole.getInstance();
+		guiMgr = GuiManager.getInstance();
 		eCreator = new EventCreator(EVENT_TYPE.DEFAULT);
-		game.setGame(game);
 		guiMgr.setBackFrame(new BackFrame());
 		IntroScreen introScreen = new IntroScreen();
 		eCreator.setStartCall(introScreen.getSingleButton());
 		guiMgr.addPanel(introScreen.getIntroScreen(), 0, "");
-		MyConsole console = new MyConsole();
-		game.setConsole(console);
+		
 
 	}
 

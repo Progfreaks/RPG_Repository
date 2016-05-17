@@ -23,7 +23,7 @@ public class EventCreator implements ActionListener {
 	private JButton[][] buttonMatrix;
 	private EVENT_TYPE eventType;
 	private GuiManager guiMgr;
-	Thread thread;
+	private Thread thread;
 
 	// Aufzaehlung fuer Event-Type
 	enum EVENT_TYPE {
@@ -38,7 +38,7 @@ public class EventCreator implements ActionListener {
 	public EventCreator(EVENT_TYPE eventType) {
 
 		this.eventType = eventType; // Setten des Events-Types
-		guiMgr = new GuiManager();
+		guiMgr = GuiManager.getInstance();
 
 	}
 
@@ -135,7 +135,7 @@ public class EventCreator implements ActionListener {
 
 		} else {
 
-			buttonMatrix = guiMgr.getButtonMatrix();
+			buttonMatrix = guiMgr.getButtonPanel().getButtonMatrix();
 			
 			for (int i = 0; i < buttonMatrix.length; i++) {
 
@@ -151,6 +151,7 @@ public class EventCreator implements ActionListener {
 			switch (eventType) {
 
 			case MOVE:
+				System.out.println("MOVE");
 				MoveEvent moveEvent = new MoveEvent(x, y);
 				moveEvent.process();
 				break;

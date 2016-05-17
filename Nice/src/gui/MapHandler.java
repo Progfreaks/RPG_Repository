@@ -6,6 +6,7 @@ import java.awt.Color;
 
 import javax.swing.JButton;
 
+import persistence.character.CharacterDataMap;
 import valueobject.Board;
 import domain.DuD;
 
@@ -20,23 +21,36 @@ import domain.DuD;
 public class MapHandler {
 
 	private DuD game;
-	Board board = null;
-	public static ButtonPanel buttonPanel;// JPanel fuer Button
-	private int[][] boardMatrix ; // das int array vom board
-	private int  xp, yp; // Koordinaten der FieldObjects
+	private Board board ;
+	public  ButtonPanel buttonPanel;
+	private int[][] boardMatrix ;
+	private int  xp, yp; 
 	public static int num;
 	public final int CHARACTER = 4;
+	
+	
+	// Singleton Objekt. Gewaehrleistet dass es nur eine Instanz exsistiert.
+	private static MapHandler  singleton;
 
-	/**
-	 * Konstruktor
-	 * 
-	 * @param centralGui
-	 */
-	public MapHandler() {
+	// Vermeidet dass die Instanz dieser Klasse von anderen Klassen erzeugt wird.
+	private MapHandler() {
 
 		board = new Board();
 		game = DuD.getGame();
 
+	}
+	
+	/**
+	 * Wenn es keine Instanz exsistiert, dann wird eine Instanz erzeugt. Wenn
+	 * existiert, dann gibt die zurück.
+	 * 
+	 * @return
+	 */
+	public static MapHandler getInstance() {
+
+		if (singleton == null) singleton = new MapHandler();
+			 
+		return singleton;
 	}
 
 	/**
@@ -57,21 +71,18 @@ public class MapHandler {
 				if (boardMatrix[y][x] == CHARACTER) {
 					game.setCharCoords(x, y); // x und y des Char setzen
 				}
-				buttonPanel.paintButtons(boardMatrix[y][x], y, x);// je nachdem
-				// welche
-				// Wert das
-				// BoardArray
-				// hat.
+				buttonPanel.paintButtons(boardMatrix[y][x], y, x);// je nachdem welche Wert das Boardarray hat.
+
 				buttonPanel.disable(buttonPanel.buttons[y][x]);
 			}// <- ende der for Schleife
 		}// <- ende der for Schleife
 	}
 
 
-	public void setButtonPanel(ButtonPanel panel){
-		buttonPanel = panel;
-	}
-
+	/**
+	 * Getter-Methode feur das Buttonpanel.
+	 * @return
+	 */
 	public ButtonPanel getButtonPanel() {
 		return buttonPanel;
 	}
@@ -81,11 +92,11 @@ public class MapHandler {
 	 * 
 	 * @return
 	 */
-	public JButton[][] getButtonMatrix() {
-
-		return buttonPanel.getButtonMatrix();
-
-	}
+//	public JButton[][] getButtonMatrix() {
+//
+//		return buttonPanel.getButtonMatrix();
+//
+//	}
 
 	public void setButtonMatrix(JButton[][] buttons) {
 		buttonPanel.setButtonMatrix(buttons);
@@ -95,26 +106,8 @@ public class MapHandler {
 		return board.getBoardMatrix();
 	}
 
-	/**
-	 * Erstellt den buttonLayer, disabled alle Buttons und leitet dies weiter an
-	 * die Gui ueber game
-	 */
-	// public void render() {
-	//
-	// colorButtonPanel();
-	//
-	// GuiController guiMgr = new GuiController();
-	// guiMgr.removePanel(0);
-	// guiMgr.addPanel(buttonPanel.getButtonLayer(), 0,
-	// "push, height 400:400:400, width 400:400:400");
-	// BackFrame backFrame = guiMgr.getBackFrame();
-	// backFrame.refresh();
-	//
-	//
-	//
-	// }
 
-	
+
 	public void renderChest() {
 
 		buttonPanel.buttons[22][30].setBackground(Color.YELLOW);
@@ -216,13 +209,13 @@ public class MapHandler {
 	private void setBorder(int y, int x) {
 
 		if (boardMatrix[y][x] != 0) {
-			JButton button = buttonPanel.getButton(y, x);
+			JButton button = buttonPanel.buttons[y][x];
 			buttonPanel.setBorder(button);
 			buttonPanel.enable(button);
 		}
 
 	}
-	
+
 	/**
 	 * params = Position des geclickten Buttons settet ausserderm neue charposi
 	 * 
@@ -231,16 +224,16 @@ public class MapHandler {
 	 */
 	public void repaintButton(int xf, int yf) {
 
-		
+
 		this.xp = game.getXCharCoord();
 		this.yp = game.getYCharCoord();
 		buttonPanel.buttons[yp][xp].setBackground(Color.LIGHT_GRAY);
 		buttonPanel.buttons[yf][xf].setBackground(Color.BLUE);
 		undoMoveRange(num);
 		game.setCharCoords(xf, yf);
-		
-		
-		
+
+
+
 
 	}
 
@@ -315,7 +308,7 @@ public class MapHandler {
 
 	private void removeBorder(int y, int x){
 		if(boardMatrix[y][x] != 0){
-			JButton button = buttonPanel.getButton(y, x);
+			JButton button = buttonPanel.buttons[y][x];
 			buttonPanel.removeBorder(button);
 			buttonPanel.disable(button);
 		}

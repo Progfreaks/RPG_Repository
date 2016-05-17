@@ -16,7 +16,7 @@ public class MoveEvent extends GameEvent {
 		
 		this.xf = x;
 		this.yf = y;
-		guiMgr = new GuiManager();
+		guiMgr = GuiManager.getInstance();
 	}
 	@Override
 	public void process(){

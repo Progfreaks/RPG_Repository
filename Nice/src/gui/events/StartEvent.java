@@ -1,6 +1,7 @@
 package gui.events;
 
 import gui.EventCreator;
+import gui.GameConsole;
 import gui.GuiManager;
 import gui.objects.ButtonPanel;
 import gui.objects.MenuPanel;
@@ -19,7 +20,7 @@ public class StartEvent extends GameEvent   {
 	private EventCreator eCreator;
 
 	public  StartEvent(EventCreator e) {
-		guiMgr = new GuiManager();
+		guiMgr = GuiManager.getInstance();
 		eCreator = e;
 	}
 
@@ -29,7 +30,7 @@ public class StartEvent extends GameEvent   {
 		game = DuD.getGame();
 		guiMgr.removePanel(0);
 		guiMgr.createOpeningPanel();
-		game.addPlayer(game.createPlayer(game.getConsole().selectCharacter()));
+		game.addPlayer(game.createPlayer(GameConsole.getInstance().selectCharacter()));
 		setUpNewGame();
 	}
 
@@ -45,7 +46,7 @@ public class StartEvent extends GameEvent   {
 
 		guiMgr.removePanel(0);                    
 		guiMgr.paintButtonPanel();
-		eCreator.setActionCalls(guiMgr.getButtonMatrix());
+		eCreator.setActionCalls(guiMgr.getButtonPanel().getButtonMatrix());
 		ButtonPanel buttonPanel  = guiMgr.getButtonPanel();
 		MenuPanel menuPanel = new MenuPanel();
 		eCreator.setRollCall(menuPanel.getRollButton());
