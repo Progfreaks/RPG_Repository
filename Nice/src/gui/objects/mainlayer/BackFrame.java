@@ -1,4 +1,4 @@
-package gui.objects;
+package gui.objects.mainlayer;
 
 import java.awt.BorderLayout;
 

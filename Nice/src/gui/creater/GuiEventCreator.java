@@ -1,11 +1,10 @@
-package gui;
+package gui.creater;
 
 import gui.events.GuiFightEvent;
 import gui.events.GuiGameEvent;
 import gui.events.GuiMoveEvent;
 import gui.events.GuiPickUpEvent;
 import gui.events.GuiRollEvent;
-import gui.events.GuiStartEvent;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -115,10 +114,10 @@ public class GuiEventCreator implements ActionListener {
 		if (eventType == EVENT_TYPE.NEW_GAME) { // Zum abfangen des NewGame
 
 
-			GuiGameEvent startEvent = new GuiStartEvent(this);
-			 thread = new Thread(startEvent);
-		
-			thread.start();
+//			GuiGameEvent startEvent = new GuiStartEvent(this);
+//			 thread = new Thread(startEvent);
+//		
+//			thread.start();
 
 
 

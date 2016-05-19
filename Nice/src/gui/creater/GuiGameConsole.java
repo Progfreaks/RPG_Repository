@@ -1,4 +1,4 @@
-package gui;
+package gui.creater;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,19 +16,21 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import net.miginfocom.swing.MigLayout;
+import domain.DuD;
+import domain.exceptions.InvalidNumberException;
 import persistence.character.CharacterData;
 import persistence.character.CharacterDataMap;
+import valueobject.Character;
 import valueobject.Dice;
-import valueobject.character.Character;
 
-public class GameConsole implements ActionListener {
+public class GuiGameConsole implements ActionListener {
 
 
 	static Character player = null;
 	static Character enemy = null;
 	private JPanel console = null;
-	private static CharacterDataMap map = CharacterDataMap.getInstance();
+	//private static CharacterDataMap map = CharacterDataMap.getInstance();
+	
 
 	private int useMP;
 
@@ -39,115 +41,101 @@ public class GameConsole implements ActionListener {
 	// Zaehler. wie viel mal Wuerfel geworfen ist.
 	private int count = 1;
 	
-	private static GameConsole singleton;
+	private static GuiGameConsole singleton;
 
 	// ----------------------
 
-	JTextArea area = new JTextArea();
-	JTextField field = new JTextField();
-	JScrollPane scrollPane;
-	JButton enterButton;
-	String title;
+	private JTextArea area = new JTextArea();
+	private JTextField field = new JTextField();
+	private JScrollPane scrollPane;
+	private JButton enterButton;
+	private String title;
+	private static boolean stop = true;
+	private int num = 0;
 
-	private GameConsole() {
+
+	private GuiGameConsole() {
 		this.console = new JPanel();
+		
 		initialize();
 	}
 	
-	public static GameConsole getInstance(){
-		if(singleton == null) singleton = new GameConsole();
+	public static GuiGameConsole getInstance(){
+		if(singleton == null) singleton = new GuiGameConsole();
 		return singleton;
 	}
 
+	/**
+	 * Gibt das Enterbutton zurueck.
+	 * @return
+	 */
 	public JButton getButton() {
 		return enterButton;
 	}
 
-	public String getName() {
-		return title;
-	}
-	
-	public void printMsg(String s){
-		appendln(s);
-	}
-
-
-
-	
-
+	/**
+	 * Initialisiert dies Console.
+	 */
 	private void initialize() {
 
 		console.setSize(800, 400);
 		area.setEditable(false);
 		JPanel panel1 = new JPanel();
-		
-		
-		
 		panel1.setLayout(new GridLayout(1, 3));// 1 Zeile, 3 Spalte
 		JLabel inputLabel = new JLabel("Eingabe ->  ");
-		
 		
 		inputLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel1.add(inputLabel);
 		panel1.add(field);
 		enterButton = new JButton("Enter");
-		
-		panel1.setOpaque(true);
-		
-		
+		panel1.setOpaque(false);
 		enterButton.addActionListener(this);
 		panel1.add(enterButton);
-
 		JPanel panel2 = new JPanel();
-
 		// ScrollPane hinzufuegen
-		JScrollPane scrollPane = new JScrollPane(area);// Scroll Kanten
+		JScrollPane scrollPane = new JScrollPane(area);
 		scrollPane.setPreferredSize(new Dimension(400, 200));
-
 		panel2.add(scrollPane);
-		panel2.setOpaque(true);
-		panel2.setBackground(Color.BLACK);
+		panel2.setOpaque(false);
+		//panel2.setBackground(Color.red);
 		// Inhalt des Frames zusammenbauen
 		console.setLayout(new BorderLayout());
 		console.add(panel1, BorderLayout.CENTER);
 		console.add(panel2, BorderLayout.NORTH);
+		console.setOpaque(false);
 		console.setVisible(true);
 
 	}
 
-	public static boolean stop = true;
-
-	int num = 0;
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("tipped");
 		changeValueOfStop();
 		autoScroll();
 
 	}
 
 	private void autoScroll() {
-		// scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum()+3);
-		// scrollPane.getVerticalScrollBar().setValue(0);
-		// scrollPane.getViewport().scrollRectToVisible(new Rectangle(0,
-		// Integer.MAX_VALUE - 1, 1, 1));
-
 		area.setCaretPosition(area.getDocument().getLength());
 	}
 
-	private void appendln(String pText) {
+	public void appendln(String pText) {
 
 		area.append(pText + "\n");
 		autoScroll();
 	}
+	
+	public void errorMsg(String msg){
+		area.append("\n "+msg+" \n");
+		autoScroll();
+	}
 
-	private void append(String pText) {
+	public void append(String pText) {
 		area.append(pText);
 		autoScroll();
 	}
 
-	private int getNumber() {// TODO Exception
+	private int getNumber() throws NumberFormatException { 
 		
 
 		int num = Integer.valueOf(field.getText());
@@ -169,19 +157,24 @@ public class GameConsole implements ActionListener {
 		} catch (InterruptedException e) {
 			}
 		}
-			
-		
-			
 		changeValueOfStop();
-		
+	}
+	
+	private void waitFewSecond(){
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			
+			e.printStackTrace();
+		}
 	}
 
-	public CharacterData selectCharacter() {
+	public CharacterData selectCharacter() throws NumberFormatException, InvalidNumberException{
 
-		appendln("Willkommen zu unserem Duengeon!! (enter)\n");
+		appendln("\nWillkommen zu unserem Duengeon!! (enter)\n");
 		waitForClick();
 
-		appendln("Charakter auswaehlen (enter)\n");
+		appendln("bitte Charakter auswaehlen (enter)\n");
 
 		int characterId = 0;
 
@@ -191,7 +184,8 @@ public class GameConsole implements ActionListener {
 		int count = 1;
 		for (int id : persistence.character.ICharacterDefs.CharakterID) {
 
-			status = map.getCharacterData(id);
+			//status = map.getCharacterData(id);
+			status = DuD.getGame().getCharData(id);
 
 			if (Boolean.valueOf(status.getValue(status.ISPLAYER)))
 				appendln(((count++) + " :" + status.getValue(status.NAME)));
@@ -199,9 +193,13 @@ public class GameConsole implements ActionListener {
 
 		waitForClick();
 
-		characterId = getNumber();
+		
+			characterId = getNumber();
+		if(characterId > 5 || characterId < 1) throw new InvalidNumberException(characterId);
+		
 
-		status = map.getCharacterData(characterId - 1);
+//		status = map.getCharacterData(characterId - 1);
+		status = DuD.getGame().getCharData(characterId - 1);
 
 		appendln("\nLos geht's mit dem " + status.getValue(status.NAME)
 				+ "!!\n");
@@ -224,8 +222,9 @@ public class GameConsole implements ActionListener {
 	 * @param character
 	 *            Charakter, der die auszuwaehlenden Faaehigkeiten besitzt.
 	 * @return Schaden
+	 * @throws InvalidNumberException, NumberFormatException 
 	 */
-	public int selectCommandMessage(final Character ch) {// TODO Exception
+	public int selectCommandMessage(final Character ch) throws InvalidNumberException, NumberFormatException {// TODO Exception
 
 		// Pruefer fuer die while Schleife
 		boolean check = true;
@@ -236,16 +235,13 @@ public class GameConsole implements ActionListener {
 		// solange es genug MP bleibt
 		while (check) {
 
-			appendln("Kommando auswaehlen\n");
+			appendln("\nbitte Kommando auswaehlen\n");
 
 			// Bekommt die Faehigkeiten vom Charakter
 			persistence.character.CharacterData.Skill[] skills = ch.getSkills();
 
 			int i = 1;
-			for (persistence.character.CharacterData.Skill skill : skills) {// Alle
-																			// Faehigkeiten
-																			// werden
-																			// angezeigt
+			for (persistence.character.CharacterData.Skill skill : skills) {// Alle Faehigkeiten werden angezeigt
 
 				appendln((i++) + " : " + skill.getName() + " /" + skill.getMP()
 						+ "MP/Schaden*" + skill.getDamage());
@@ -259,6 +255,7 @@ public class GameConsole implements ActionListener {
 			
 			//------TODO-------------
 			int command = getNumber();
+			if(command > 4 || command < 1) throw new InvalidNumberException(command);
 			
 
 			switch (command) {
@@ -355,14 +352,13 @@ public class GameConsole implements ActionListener {
 		// Solange beide Charakter noch am Leben ist
 		while (c01.isAlive() && c02.isAlive()) {
 
-			appendln("-----Runde " + (++round) + " ----- (ENTER)\n");
+			appendln("-----Runde " + (++round) + " ----- (enter)\n");
 			waitForClick(); // ---------Runde fuer Spieler-------------
 			appendln(c01.toString());
 			System.out.println(c01.getMP());
 
-			// damage = c01.attack();
-			damage = c01.isPlayer() ? selectCommandMessage(c01)
-					: diceForAtk(c01);
+	
+			damage = getDamage(c01);
 
 			if (damage != 0) {
 
@@ -379,24 +375,44 @@ public class GameConsole implements ActionListener {
 			// -------------Runde fuer Gegner-----------------
 			appendln(c02.toString());
 
-			damage = c02.isPlayer() ? selectCommandMessage(c02)
-					: diceForAtk(c02);
+			
+			damage = getDamage(c02);
 
 			if (damage != 0) {
-
 				roundMessageShowStatus(damage, c01);
-
 			}
 
 			appendln(c01.toString());
-			appendln("Naechste Runde (ENTER) > \n");
+			appendln("Naechste Runde (enter) > \n");
 			autoScroll();
 			waitForClick();
 		}
 
-		String result = c01.isAlive() ? "You" : "ENEMY";
-		appendln(result + " hat gewonnen!!");
+		String result = c01.isAlive() ? "Du hast" : "ENEMY hat";
+		appendln(result + " gewonnen!!");
 
+	}
+	
+	/**
+	 * Hilfs Methode fuer roundMessage. Gibt den Schaden zurueck.
+	 * @param c
+	 * @return
+	 */
+	private int getDamage(Character c){
+		boolean loop = true;
+		int damage = 0;
+		while(loop)
+		try {
+			damage = c.isPlayer() ? selectCommandMessage(c)
+					: diceForAtk(c);
+			loop = false;
+		} catch (NumberFormatException | InvalidNumberException e) {
+			GuiGameConsole.getInstance().errorMsg(e.getMessage());
+			GuiGameConsole.getInstance().errorMsg("ungueltiges Zeichen! bitte nochmal eingeben");
+			
+		}
+		
+		return damage;
 	}
 
 	/**
@@ -415,7 +431,7 @@ public class GameConsole implements ActionListener {
 		character.setLife(-damage);
 
 		appendln(character.getLife() + "/" + character.getMaxLife()
-				+ " (ENTER)\n");
+				+ " (enter)\n");
 
 		waitForClick();
 	}
@@ -475,8 +491,8 @@ public class GameConsole implements ActionListener {
 	public void diceMessage(final Character ch) {
 
 		String message = ch.isPlayer() ? "Wuerfeln (" + (count++)
-				+ "/2) (ENTER) >" : ch.getName() + " wuerfelt (" + (count++)
-				+ "/2) (ENTER)) >";
+				+ "/2) (enter) >" : ch.getName() + " wuerfelt (" + (count++)
+				+ "/2) (enter)) >";
 		appendln(message);
 		autoScroll();
 		waitForClick();
@@ -494,17 +510,14 @@ public class GameConsole implements ActionListener {
 	public int validDiceNumMessage(final int num) {
 		if (num == 1) {
 
-			append("\nDie Nummer ist 1. Der Angriff ist fehlgeschlagen ..... (ENTER)\n");
+			append("\nDie Nummer ist 1. Der Angriff ist fehlgeschlagen ..... (enter)\n");
 			waitForClick();
 			count = 1;
-
-			// failed = true;
 			return 0;
 
 		} else {
-			appendln("\nDie Nummer ist " + num + " (ENTER)\n");
-			waitForClick();
-			return num;
+
+			return showNumMessage(num);
 		}
 
 	}
@@ -517,9 +530,9 @@ public class GameConsole implements ActionListener {
 	 */
 	public int showNumMessage(final int num) {
 		
-		appendln("\nDie Nummer ist " + num + " (ENTER)\n");
+		appendln("\nDie Nummer ist " + num + " \n");
 		autoScroll();
-		waitForClick();
+		waitFewSecond();
 		return num;
 	}
 
@@ -584,7 +597,7 @@ public class GameConsole implements ActionListener {
 
 		if (rounds <= 1) {
 
-			String msg = ch.getName() + ": Rundenbeginn! Bitte wuerfel (ENTER)";
+			String msg = ch.getName() + ": Rundenbeginn! Bitte wuerfel (enter)";
 			appendln(msg);
 			autoScroll();
 
@@ -592,7 +605,7 @@ public class GameConsole implements ActionListener {
 
 		} else {
 			String msg = ch.getName() + ": Runde: " + rounds
-					+ ". Bitte wuerfel (ENTER)";
+					+ ". Bitte wuerfel (enter)";
 			appendln(msg);
 			waitForClick();
 		}
@@ -616,6 +629,7 @@ public class GameConsole implements ActionListener {
 	}
 
 	public JPanel getConsole() {
+		
 		return console;
 	}
 

@@ -1,7 +1,7 @@
-package gui;
+package gui.creater;
 
-import gui.objects.ButtonPanel;
-import gui.objects.ImagePainter;
+import gui.objects.mainlayer.ImagePainter;
+import gui.objects.sublayer.ButtonPanel;
 
 import java.awt.Color;
 import java.awt.Graphics;

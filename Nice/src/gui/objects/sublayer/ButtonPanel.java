@@ -1,4 +1,4 @@
-package gui.objects;
+package gui.objects.sublayer;
 
 import java.awt.Color;
 import java.awt.Graphics;

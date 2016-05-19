@@ -3,7 +3,7 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import valueobject.character.Character;
+import valueobject.Character;
 import persistence.character.CharacterData;
 import persistence.character.CharacterData.Skill;
 import domain.DuD;

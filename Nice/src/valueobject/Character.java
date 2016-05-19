@@ -1,9 +1,8 @@
-package valueobject.character;
+package valueobject;
 
 import java.io.Serializable;
 import java.util.Map;
 
-import valueobject.Dice;
 import persistence.character.CharacterData;
 
 

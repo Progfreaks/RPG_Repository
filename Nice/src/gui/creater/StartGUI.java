@@ -1,8 +1,6 @@
-package gui;
+package gui.creater;
 
-import gui.GuiEventCreator.EVENT_TYPE;
-import gui.objects.BackFrame;
-import gui.objects.sublayer.IntroScreen;
+import gui.creater.GuiEventCreator.EVENT_TYPE;
 import domain.DuD;
 
 public class StartGUI {
@@ -19,12 +17,9 @@ public class StartGUI {
 		GuiGameConsole.getInstance();
 		guiMgr = GuiManager.getInstance();
 		eCreator = new GuiEventCreator(EVENT_TYPE.DEFAULT);
-		
-		//guiMgr.setBackFrame(new BackFrame());
 		guiMgr.initBackFrame();
-		IntroScreen introScreen = new IntroScreen();
-		eCreator.setStartCall(introScreen.getSingleButton());
-		guiMgr.addToMainPanel(introScreen.getIntroScreen(), 0, "");
+		guiMgr.createNewOrLoadPanel();
+		
 		
 
 	}
@@ -32,6 +27,7 @@ public class StartGUI {
 	public static void main(String[] args) {
 
 		new StartGUI();
+	
 	}
 
 

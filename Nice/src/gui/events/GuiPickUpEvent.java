@@ -1,6 +1,6 @@
 package gui.events;
-import gui.GuiGameConsole;
-import gui.GuiManager;
+import gui.creater.GuiGameConsole;
+import gui.creater.GuiManager;
 import domain.DuD;
 
 
