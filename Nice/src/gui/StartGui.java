@@ -1,13 +1,13 @@
 package gui;
 
-import gui.EventCreator.EVENT_TYPE;
+import gui.GuiEventCreator.EVENT_TYPE;
 import gui.objects.BackFrame;
 import gui.objects.sublayer.IntroScreen;
 import domain.DuD;
 
 public class StartGUI {
 
-	private EventCreator eCreator;
+	private GuiEventCreator eCreator;
 	private GuiManager guiMgr;
 
 	/**
@@ -15,15 +15,16 @@ public class StartGUI {
 	 */
 	public StartGUI() {
 
-		//DuD game = new DuD();
 		DuD.getGame();
-		GameConsole.getInstance();
+		GuiGameConsole.getInstance();
 		guiMgr = GuiManager.getInstance();
-		eCreator = new EventCreator(EVENT_TYPE.DEFAULT);
-		guiMgr.setBackFrame(new BackFrame());
+		eCreator = new GuiEventCreator(EVENT_TYPE.DEFAULT);
+		
+		//guiMgr.setBackFrame(new BackFrame());
+		guiMgr.initBackFrame();
 		IntroScreen introScreen = new IntroScreen();
 		eCreator.setStartCall(introScreen.getSingleButton());
-		guiMgr.addPanel(introScreen.getIntroScreen(), 0, "");
+		guiMgr.addToMainPanel(introScreen.getIntroScreen(), 0, "");
 		
 
 	}

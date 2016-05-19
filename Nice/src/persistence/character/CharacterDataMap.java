@@ -22,14 +22,24 @@ public class CharacterDataMap implements Serializable,ICharacterDefs{
 
 	//Speichert CharacterData und entsprechenden CharakterID.
 	private Map<Integer, CharacterData> characterDataMap = new HashMap<Integer, CharacterData>();
-	//private Map<Integer, CharacterData> characterDataMap;
-
 	
 	// Singleton Objekt. Gewaehrleistet dass es nur eine Instanz exsistiert.
 	private static CharacterDataMap singleton;
 	
+	enum LOAD_STATE{
+		NEW_GAME,LOAD_GAME;
+	}
+	
+	private LOAD_STATE state;
+	
 	// Vermeidet dass die Instanz dieser Klasse von aussen erzeugt wird.
-	private CharacterDataMap(){}
+	private CharacterDataMap(){
+		state = LOAD_STATE.NEW_GAME;
+	}
+	
+	
+	
+	
 	
 	/**
 	 * Wenn es keine Instanz exsistiert, dann wird eine Instanz erzeugt. Wenn
@@ -56,20 +66,20 @@ public class CharacterDataMap implements Serializable,ICharacterDefs{
 		
 	
 
-		
-
-
-		//Wenn CharacterDataMap kein entsprechende CharacterData hat, 
-		//wird ein CharacterData im CharacterMap gespeichert.
+		//Wenn CharacterDataMap kein entsprechende CharacterData hat, wird ein CharacterData im CharacterMap gespeichert.
 		if (!characterDataMap.containsKey(pCharacterId)) {
-			
 
 			characterDataMap.put(pCharacterId, new CharacterData(pCharacterId));
-			
 		}
-
 			return characterDataMap.get(pCharacterId);
+	}
 	
+	/**
+	 * Setzt das Loadstate.
+	 * @param state
+	 */
+	public void setLoadState(LOAD_STATE state){
+		this.state = state;
 	}
 
 	/**

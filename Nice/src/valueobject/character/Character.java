@@ -1,5 +1,6 @@
 package valueobject.character;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import valueobject.Dice;
@@ -11,7 +12,7 @@ import persistence.character.CharacterData;
  * @author YOU_HEY
  *
  */
-public  class Character  {
+public  class Character implements Serializable {
 	
 	
 	    //Name des Charakters.
@@ -30,14 +31,10 @@ public  class Character  {
 		private final int maxLife;
 		//Maximale Manapunkte.
 		private final int maxMP;
-		
 		private int mp;
-		//Faehigkeiten des Charakters.
-		
-		
 		//Koordinate des Charakters.
 		private int x, y;
-		
+		//Faehigkeiten des Charakters.
 		private persistence.character.CharacterData.Skill[] skills;
 		
 	
@@ -167,25 +164,13 @@ public  class Character  {
 	public int getMaxLife(){
 		return maxLife;
 	}
-//	/**
-//	 * Eine print-Methode.
-//	 */
-//	public void print(){
-//		System.out.println("Name:"+getName()+" Life:"+getLife()+"/"+getMaxLife()
-//				+" MP:"+getMP()+"/"+maxMP+" Level:"+getLevel()+"\n");
-//	}
+
 	
 	public String toString(){
 		return "Name:"+getName()+" Life:"+getLife()+"/"+getMaxLife()
-				+" MP:"+getMP()+"/"+maxMP+" Level:"+getLevel();
+				+" MP:"+getMP()+"/"+maxMP+"\n";//+" Level:"+getLevel();
 	}
-//	/**
-//	 * Methode, die Angriff-Prozess ausfuehrt.
-//	 * @return
-//	 */
-//	public int attack(){
-//		return isPlayer() ? CentralSave.console.selectCommandMessage(this):Dice.diceForAtk(this);
-//	}
+
 	/**
 	 * Setter-Methode fuer MP.
 	 * @param mp

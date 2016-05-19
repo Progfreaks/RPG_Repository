@@ -2,6 +2,9 @@ package gui.objects.sublayer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,44 +17,46 @@ import javax.swing.JPanel;
 
 public class IntroScreen {
 
-	private JPanel introScreen;
-	private JButton single;
-	private JButton multi;
+	private JPanel introPanel;
+	private JButton singleButton;
+	private JButton multiButton;
 
 	public IntroScreen(){
 
-		introScreen = new JPanel();
-		introScreen.setLayout(new BorderLayout());
+		introPanel = new JPanel();
+			
+		introPanel.setLayout(new BorderLayout());
+		
 		JPanel imageLayer = new JPanel();
 		JPanel selectLayer = new JPanel();
-		single = new JButton("Singleplayer");
-		multi = new JButton("Multiplayer");
-		single.setBackground(Color.RED);
-		single.setForeground(Color.BLACK);
+		singleButton = new JButton("Singleplayer");
+		multiButton = new JButton("Multiplayer");
+		singleButton.setBackground(Color.RED);
+		singleButton.setForeground(Color.BLACK);
 		selectLayer.setLayout(new BorderLayout());
-		selectLayer.add(single, BorderLayout.WEST);
-		selectLayer.add(multi, BorderLayout.EAST);
+		selectLayer.add(singleButton, BorderLayout.WEST);
+		selectLayer.add(multiButton, BorderLayout.EAST);
 		selectLayer.setVisible(true);
 		imageLayer.add(new JLabel(new ImageIcon(loadImg("resource/images/introscreen.jpeg"))));
 		imageLayer.setVisible(true);
 		selectLayer.setOpaque(false);
-		introScreen.add(imageLayer,BorderLayout.SOUTH);
-		introScreen.add(selectLayer,BorderLayout.NORTH);
-		introScreen.setSize(1024, 768);
-		introScreen.setVisible(true);
-		introScreen.revalidate();
+		introPanel.add(imageLayer,BorderLayout.SOUTH);
+		introPanel.add(selectLayer,BorderLayout.NORTH);
+		//introPanel.setSize(1024, 768);
+		introPanel.setVisible(true);
+		introPanel.revalidate();
 
 
 	}
 
 	public JPanel getIntroScreen(){
 
-		return introScreen;
+		return introPanel;
 
 	}
 
 	public JButton getSingleButton(){
-		return single;
+		return singleButton;
 	}
 
 	public BufferedImage loadImg(String path){

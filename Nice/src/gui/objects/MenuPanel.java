@@ -1,5 +1,7 @@
 package gui.objects;
 
+import java.awt.Color;
+
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -19,6 +21,10 @@ public class MenuPanel {
 		menuPanel = new JPanel();
 		menuBar = new JMenuBar();
 		rollButton = new JButton("Please Roll");
+		//Macht den Button durchsichtig
+		rollButton.setContentAreaFilled(false);
+		rollButton.setBorderPainted(false);
+		menuBar.setBackground(Color.BLUE);
 		menuBar.add(rollButton);
 		menuPanel.add(menuBar);
 		menuPanel.setSize(400, 200);

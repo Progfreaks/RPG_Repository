@@ -1,8 +1,10 @@
 package domain;
 
-import gui.GameConsole;
-import gui.events.GameEvent;
+import gui.GuiGameConsole;
+import gui.events.GuiGameEvent;
 import persistence.character.CharacterData;
+import persistence.character.CharacterDataMap;
+import persistence.gamestate.GameState;
 import valueobject.character.Character;
 
 
@@ -15,7 +17,7 @@ public class DuD {
 
 	private CharacterManager CharMgr = null;
 	private GameCycle cycle = null;
-	private  GameConsole console = null;
+	private  GuiGameConsole console = null;
 	private static DuD singleton;
 
 
@@ -39,7 +41,7 @@ public class DuD {
 	}
 
 	
-	public void setConsole(GameConsole console){
+	public void setConsole(GuiGameConsole console){
 		this.console = console;
 	}
 
@@ -48,7 +50,7 @@ public class DuD {
 //	}
 	
 	
-	public void processEvent(GameEvent event) {
+	public void processEvent(GuiGameEvent event) {
 
 		event.process();
 	}
@@ -77,6 +79,14 @@ public class DuD {
 	}
 	public CharacterManager getCharMgr(){
 		return CharMgr;
+	}
+	
+	
+	
+	public void setCharToState(int i){
+		GameState state = GameState.getInstance();
+		state.setCharacter(getCharMgr().getPlayer(i));
+		state.saveFile();
 	}
 	public Character getPlayer(final int index){
 		return CharMgr.getPlayer(index);
@@ -107,7 +117,18 @@ public class DuD {
 	public void setIndicator(boolean in){
 		cycle.setIndicator(in);
 	}
+	
+	/**
+	 * Gibt ein Charcterdata zurueck.
+	 * @param id
+	 * @return
+	 */
+	public CharacterData getCharData(int id){
+		 CharacterDataMap map = CharacterDataMap.getInstance();
+		 return map.getCharacterData(id);
+		 
+	}
 
-
+ 
 }
 

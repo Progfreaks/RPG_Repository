@@ -1,9 +1,21 @@
 package gui.objects;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -17,7 +29,7 @@ import javax.swing.border.LineBorder;
 @SuppressWarnings("serial")
 public class ButtonPanel extends JPanel{
 
-	public  JButton[][] buttons = new JButton[32][32];
+	public   JButton[][] buttons = new JButton[32][32];
 	private Border moveBorder;
 
 	/**
@@ -27,7 +39,10 @@ public class ButtonPanel extends JPanel{
 
 		setLayout(new GridLayout(32,32));
 
+
 	}
+
+
 
 	/**
 	 * Setter-Methode fuer das Buttonmatrix.
@@ -53,7 +68,7 @@ public class ButtonPanel extends JPanel{
 		return this;
 	}
 
-	
+
 	/**
 	 * Faerbt die Buttons anhand der Indexs.
 	 * @param index
@@ -63,23 +78,29 @@ public class ButtonPanel extends JPanel{
 	public void paintButtons(int index, int i, int s){
 		switch(index)
 		{
-		case 0: setColorButton(i, s, Color.BLACK);
+		case 0: 
+			setImageButton(i, s, "resource/images/m.png");
+			//setColorButton(i, s, Color.BLACK);
+			break;
 
-		break;
+		case 1: 
 
-		case 1: setColorButton(i, s, Color.LIGHT_GRAY);
+			setImageButton(i, s, "resource/images/road.png");
+			//setColorButton(i, s, Color.LIGHT_GRAY);
+			break;
 
-		break;
+		case 2: 
+			setImageButton(i, s, "resource/images/box.png");
+			//setColorButton(i, s, Color.CYAN);
+			break;
 
-		case 2: setColorButton(i, s, Color.CYAN);
+		case 3: 
+			setImageButton(i, s, "resource/images/skull.png");
+			//setColorButton(i, s, Color.RED);
+			break;
 
-		break;
-
-		case 3: setColorButton(i, s, Color.RED);
-
-		break;
-
-		case 4: setColorButton(i, s, Color.BLUE);
+		case 4: setImageButton(i, s, "resource/images/star.png");
+			//setColorButton(i, s, Color.BLUE);
 
 		break;
 		}
@@ -98,6 +119,21 @@ public class ButtonPanel extends JPanel{
 		buttons[i][s] = new JButton(); 
 		buttons[i][s].setBackground(c); 
 		buttons[i][s].setOpaque(true); 
+		add(buttons[i][s]); 
+	}
+
+	/**
+	 * Setzt ein Image in den Button und fuegt ihn in dies Panel ein.
+	 * @param i
+	 * @param s
+	 * @param path
+	 */
+	private void setImageButton(int i, int s, String path){
+		ImageIcon imageIcon = new ImageIcon(path);
+		buttons[i][s] = new JButton(); 
+		buttons[i][s].setMargin(new Insets(0, 0, 0, 0));
+		buttons[i][s].setIcon(imageIcon);
+		buttons[i][s].setDisabledIcon(imageIcon);
 		add(buttons[i][s]); 
 	}
 
