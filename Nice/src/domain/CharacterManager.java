@@ -3,7 +3,7 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import valueobject.Character;
+import valueobject.character.Character;
 import persistence.character.CharacterData;
 import persistence.character.CharacterData.Skill;
 import domain.DuD;
@@ -16,7 +16,7 @@ import domain.DuD;
  *
  */
 public class CharacterManager {
-	
+
 	//Spielern werden hier gespeichert.
 	private  List<Character> list = new ArrayList<Character>();
 	//alle Gegner werden hier gespeichert.

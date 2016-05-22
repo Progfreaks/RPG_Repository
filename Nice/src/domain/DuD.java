@@ -1,11 +1,11 @@
 package domain;
 
-import gui.creater.GuiGameConsole;
+import gui.GuiGameConsole;
 import gui.events.GuiGameEvent;
 import persistence.character.CharacterData;
 import persistence.character.CharacterDataMap;
 import persistence.gamestate.GameState;
-import valueobject.Character;
+import valueobject.character.Character;
 
 
 /**
@@ -45,12 +45,26 @@ public class DuD {
 		this.console = console;
 	}
 
+//	public GameConsole getConsole(){
+//		return console;
+//	}
+	
 	
 	public void processEvent(GuiGameEvent event) {
 
 		event.process();
 	}
 
+//	public static DuD getGame(){
+//
+//		return game;
+//	}
+
+
+
+//	public void setGame(DuD game){
+//		this.game = game;
+//	}
 
 	public void setCharCoords(int x, int y){
 

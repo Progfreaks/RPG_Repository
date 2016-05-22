@@ -1,7 +1,9 @@
 package gui.events;
 
-import gui.creater.GuiManager;
+import gui.GuiManager;
+import gui.GuiGameConsole;
 import domain.DuD;
+import valueobject.Dice;
 
 public class GuiRollEvent extends GuiGameEvent {
 

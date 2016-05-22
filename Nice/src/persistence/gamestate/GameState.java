@@ -15,7 +15,7 @@ public class GameState implements Serializable{
 	// Singleton Objekt. Gewaehrleistet dass es nur eine Instanz exsistiert.
 	private static GameState singleton;
 
-	private valueobject.Character character;
+	private valueobject.character.Character character;
 
 
 	private GameState(){}
@@ -26,11 +26,11 @@ public class GameState implements Serializable{
 		return singleton;
 	}
 
-	public void setCharacter(valueobject.Character c){
+	public void setCharacter(valueobject.character.Character c){
 		character = c;
 	}
 
-	public valueobject.Character getCharacter(){
+	public valueobject.character.Character getCharacter(){
 		return character;
 	}
 	/**

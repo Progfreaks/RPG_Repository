@@ -1,10 +1,10 @@
 package gui.events;
 
-import gui.creater.GuiGameConsole;
-import gui.creater.GuiManager;
+import gui.GuiManager;
+import gui.GuiGameConsole;
 import persistence.character.CharacterDataMap;
-import valueobject.Character;
 import domain.CharacterManager;
+import valueobject.character.Character;
 import domain.DuD;
 
 

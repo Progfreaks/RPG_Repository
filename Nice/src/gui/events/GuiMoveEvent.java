@@ -1,5 +1,5 @@
 package gui.events;
-import gui.creater.GuiManager;
+import gui.GuiManager;
 
 /**
  * Ben�tigt x u. y Werte der TestFigure, x u. y Werte des Freien Feldes.
