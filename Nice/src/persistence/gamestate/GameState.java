@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.List;
+
+import valueobject.Character;
 
 public class GameState implements Serializable{
 
@@ -17,6 +20,10 @@ public class GameState implements Serializable{
 
 	private valueobject.Character character;
 
+	private List<Character> players;
+
+	private int[][] boardMatrix;	//private CharacterManager charMgr;
+	private int currentPlayerIndex;
 
 	private GameState(){}
 
@@ -30,22 +37,55 @@ public class GameState implements Serializable{
 		character = c;
 	}
 
-	public valueobject.Character getCharacter(){
+	public void setPlayers(List<Character> players){
+		this.players = players;
+	}
+
+	public List<Character> getSavedPlayers(){
+		return players;
+	}
+
+	public valueobject.Character getSavedCharacter(){
 		return character;
 	}
+
+
+	public void setBoardMatrix(int[][] b){
+		boardMatrix = b;
+	}
+
+	public int[][] getSavedBoardMatrix(){
+		return boardMatrix;
+	}
+
+	public int getSavedCurrentPlayerIndex(){
+		return currentPlayerIndex;
+	}
+	
+	public void setCurrentPlayerIndex(int index){
+		currentPlayerIndex = index;
+	}
+
+
+
+
+
+
 	/**
 	 * Liest die Datei.
 	 */
-	private static void loadFile() {
+	public  GameState loadFile() {
 		try {
 			FileInputStream fIS = new FileInputStream("./gamestate.dat");
 			ObjectInputStream oIS = new ObjectInputStream(fIS);
 			singleton = (GameState) oIS.readObject();
 			oIS.close();
 			System.out.println("loaded");
+			return singleton;
 		} catch (Exception e) {
 			System.out.println(" keine Datei exsistiert. wird 'gamestate.dat' erzeugt");
 			singleton = new GameState();
+			return singleton;
 		}
 	}
 

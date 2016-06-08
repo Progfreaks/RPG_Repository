@@ -1,5 +1,7 @@
 package gui.events;
-import gui.creater.GuiManager;
+import domain.DuD;
+import gui.manager.GuiGameConsole;
+import gui.manager.GuiMapHandler;
 
 /**
  * Ben�tigt x u. y Werte der TestFigure, x u. y Werte des Freien Feldes.
@@ -9,25 +11,26 @@ import gui.creater.GuiManager;
  */
 public class GuiMoveEvent extends GuiGameEvent {
 	
-	private GuiManager guiMgr;
+	private GuiMapHandler mapHdr;
 	private int xf, yf;
 	
 	public GuiMoveEvent(int x, int y){
-		
 		this.xf = x;
 		this.yf = y;
-		guiMgr = GuiManager.getInstance();
+		mapHdr = GuiMapHandler.getInstance();
 	}
 	@Override
 	public void process(){
+		System.out.println("x move "+xf);
+		System.out.println("y move "+yf);
+		mapHdr.repaintButton(xf, yf);
 		
-		guiMgr.repaintButton(xf, yf);
-
-		
+		//DuD game = DuD.getGame();
+		//GuiGameConsole.getInstance().diceForMove(game.getNextPlayer(), game.nextRound());
 	}
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		process();
 		
 	}
 

@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import persistence.character.CharacterData.STATUS;
+
 
 /**
  * 
@@ -75,55 +77,105 @@ public class SubCharacterDataPanel extends JPanel implements ICharacterDefs {
 	 * @param pPanel
 	 */
 	private void setStatusText(JPanel pPanel) {
+		
+		
+		for(STATUS status : STATUS.values()){
+			// Hier werden alle Charaker-Werte(Name,Hp,Mp,isPlayer)
+						// hinzugefuegt.
+						JTextField textField = new JTextField(10);
+
+						textField.setText(characterData.getValue(status));
+
+						// Schiebt nach links.
+						textField.setHorizontalAlignment(JTextField.LEFT);
+
+						JLabel label = null;
+
+						switch (status) {// Fuegt jedes Label ins JLabel hinzu.
+						case NAME:
+							label = new JLabel(" Charakter Name");
+
+							break;
+						case HP:
+							label = new JLabel(" Lebenspunkte");
+
+							break;
+						case MP:
+							label = new JLabel(" Mana Punkte");
+
+							break;
+						case ISPLAYER:
+							label = new JLabel(" isPlayer(true/false)");
+
+							break;
+
+						default:
+							break;
+						}
+
+						// wird das Label grau gefaerbt.
+
+						label.setOpaque(true);
+						label.setBackground(Color.LIGHT_GRAY);
+
+						// Schiebt nach links.
+						label.setHorizontalAlignment(JLabel.LEFT);
+
+						pPanel.add(label);// label wird hinzugefuegt.
+						pPanel.add(textField);// text wird hinzugefuegt.
+
+						textFieldList.add(textField);// TextField wird in die List
+														// hinzugefuegt.
+		}
 
 		for (int i = 1; i <= 4; i++) {
 
-			// Hier werden alle Charaker-Werte(Name,Hp,Mp,isPlayer)
-			// hinzugefuegt.
-			JTextField textField = new JTextField(10);
-
-			textField.setText(characterData.getValue(i));
-
-			// Schiebt nach links.
-			textField.setHorizontalAlignment(JTextField.LEFT);
-
-			JLabel label = null;
-
-			switch (i) {// Fuegt jedes Label ins JLabel hinzu.
-			case 1:
-				label = new JLabel(" Charakter Name");
-
-				break;
-			case 2:
-				label = new JLabel(" Lebenspunkte");
-
-				break;
-			case 3:
-				label = new JLabel(" Mana Punkte");
-
-				break;
-			case 4:
-				label = new JLabel(" isPlayer(true/false)");
-
-				break;
-
-			default:
-				break;
-			}
-
-			// wird das Label grau gefaerbt.
-
-			label.setOpaque(true);
-			label.setBackground(Color.LIGHT_GRAY);
-
-			// Schiebt nach links.
-			label.setHorizontalAlignment(JLabel.LEFT);
-
-			pPanel.add(label);// label wird hinzugefuegt.
-			pPanel.add(textField);// text wird hinzugefuegt.
-
-			textFieldList.add(textField);// TextField wird in die List
-											// hinzugefuegt.
+//			// Hier werden alle Charaker-Werte(Name,Hp,Mp,isPlayer)
+//			// hinzugefuegt.
+//			JTextField textField = new JTextField(10);
+//
+//			textField.setText(characterData.getValue(i));
+//
+//			// Schiebt nach links.
+//			textField.setHorizontalAlignment(JTextField.LEFT);
+//
+//			JLabel label = null;
+//
+//			switch (i) {// Fuegt jedes Label ins JLabel hinzu.
+//			case 1:
+//				label = new JLabel(" Charakter Name");
+//
+//				break;
+//			case 2:
+//				label = new JLabel(" Lebenspunkte");
+//
+//				break;
+//			case 3:
+//				label = new JLabel(" Mana Punkte");
+//
+//				break;
+//			case 4:
+//				label = new JLabel(" isPlayer(true/false)");
+//
+//				break;
+//
+//			default:
+//				break;
+//			}
+//
+//			// wird das Label grau gefaerbt.
+//
+//			label.setOpaque(true);
+//			label.setBackground(Color.LIGHT_GRAY);
+//
+//			// Schiebt nach links.
+//			label.setHorizontalAlignment(JLabel.LEFT);
+//
+//			pPanel.add(label);// label wird hinzugefuegt.
+//			pPanel.add(textField);// text wird hinzugefuegt.
+//
+//			textFieldList.add(textField);// TextField wird in die List
+//											// hinzugefuegt.
 
 		}// < -Ende der for-Schleife
 

@@ -88,6 +88,12 @@ public class CharacterData implements Serializable, ICharacterDefs {
 	public static final int HP = 2;
 	public static final int MP = 3;
 	public static final int ISPLAYER = 4;
+	
+	public enum STATUS{
+		NAME,HP,MP,ISPLAYER
+	}
+	
+	public STATUS status;
 
 	
 	/**
@@ -132,11 +138,11 @@ public class CharacterData implements Serializable, ICharacterDefs {
 	 * @param index
 	 * @return
 	 */
-	public String getValue(int index){
+	public String getValue(STATUS status){
 		
 		String value = "";
 		
-		switch (index) {
+		switch (status) {
 		case NAME:
 			value = getName();
 			break;
@@ -282,4 +288,6 @@ public class CharacterData implements Serializable, ICharacterDefs {
 	public String toString(){
 		return CHARACTER_NAME[characterId];
 	}
+	
+	
 }

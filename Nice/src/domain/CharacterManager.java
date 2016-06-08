@@ -1,11 +1,14 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import valueobject.Character;
 import persistence.character.CharacterData;
+import persistence.character.CharacterData.STATUS;
 import persistence.character.CharacterData.Skill;
+import persistence.gamestate.GameState;
 import domain.DuD;
 
 
@@ -15,12 +18,20 @@ import domain.DuD;
  * @author YOU_HEY
  *
  */
-public class CharacterManager {
+public class CharacterManager  {
+	
+	
+	private static final long serialVersionUID = 278654584065262574L;
 	
 	//Spielern werden hier gespeichert.
-	private  List<Character> list = new ArrayList<Character>();
+	private  List<Character> playerList = new ArrayList<Character>();
 	//alle Gegner werden hier gespeichert.
-	private  List<Character> eList = new ArrayList<Character>();
+	private  List<Character> enemyList = new ArrayList<Character>();
+	
+	private DuD game;
+	private Character character = null;
+	//private Character enemy = null;
+	
 
 	
 	/**
@@ -31,9 +42,6 @@ public class CharacterManager {
 		this.game = game;
 	}
 
-	private DuD game;
-	Character character = null;
-	Character enemy = null;
 	
 	
 	
@@ -44,35 +52,23 @@ public class CharacterManager {
 	 */
 	public Character createCharacter(CharacterData data){
 		
-		String name = data.getValue(data.NAME);
-		int hp = Integer.valueOf(data.getValue(data.HP));
-		int mp = Integer.valueOf(data.getValue(data.MP));
-		boolean isPlayer = Boolean.valueOf(data.getValue(data.ISPLAYER));
+		String name = data.getValue(STATUS.NAME);
+		int hp = Integer.valueOf(data.getValue(STATUS.HP));
+		int mp = Integer.valueOf(data.getValue(STATUS.MP));
+		boolean isPlayer = Boolean.valueOf(data.getValue(STATUS.ISPLAYER));
 		Skill[] skills = data.getSkill();
 		
 		character = new Character(name, hp,mp, isPlayer,skills, 0, 0); // 0 u. 0 sind x und y
-				
+		
+		if(isPlayer){
+		character.setMaxLife(hp);
+		character.setMaxMP(mp);
+		}
 		
 		return character;
 	}
 	
-	/**
-	 * Erzeugt einen Gegner.
-	 * @param pCharacter
-	 * @return
-	 */
-	public Character createEnemy(CharacterData status){
-		String name = status.getValue(status.NAME);
-		int hp = Integer.valueOf(status.getValue(status.HP));
-		int mp = Integer.valueOf(status.getValue(status.MP));
-		boolean isPlayer = Boolean.valueOf(status.getValue(status.ISPLAYER));
-		Skill[] skills = status.getSkill();
-		
-		character = new Character(name, hp, mp,isPlayer,skills, 0, 0); // 0 u. 0 sind x und y
-		return enemy;
-	}
-	
-	
+
 	
 	/**
 	 * Setzt die Charakterkoodinaten.
@@ -80,6 +76,7 @@ public class CharacterManager {
 	 * @param y
 	 */
 	public void setCoords(int x, int y){
+		character = playerList.get(0);
 		character.setCoords(x, y);
 	}
 	
@@ -88,7 +85,7 @@ public class CharacterManager {
 	 * @return
 	 */
 	public int getPlayerXCoord(){
-		character = list.get(0);
+		character = playerList.get(0);
 		return character.getXCoord();
 	}
 	
@@ -97,7 +94,7 @@ public class CharacterManager {
 	 * @return
 	 */
 	public int getPlayerYCoord(){
-		character = list.get(0); //H�sslich, sollte weg
+		character = playerList.get(0); //H�sslich, sollte weg
 		return character.getYCoord();
 	}
 	
@@ -107,7 +104,7 @@ public class CharacterManager {
 	 * @return
 	 */
 	public Character getPlayer(final int index){
-		return list.get(index);
+		return playerList.get(index);
 	}
 	
 	/**
@@ -115,7 +112,51 @@ public class CharacterManager {
 	 * @param character
 	 */
 	public void addPlayer(final Character character){
-		list.add(character);
+		playerList.add(character);
+	}
+	
+	public void removePlayer(Character player){
+		//playerList.remove(0);
+		playerList.remove(player);
+	}
+	
+	public int getPlayerListSize(){
+		return playerList.size();
+	}
+	
+	public void addEnemy(Character enemy){
+		enemyList.add(enemy);
+	}
+	
+	public Character getEnemy(String name){
+		Character enemy = null;
+		System.out.println("enemy list"+enemyList.size());
+		for(Character e:enemyList){
+			System.out.println("enemy name from schmgr"+e.getName());
+			
+			if(e.getName().equals(name)){
+				enemy = e;
+			}else{
+				System.out.println("no enemy from charmgr");
+				
+			}
+		}
+		System.out.println(enemy.getName());
+		return enemy;
+	}
+	
+	public void removeEnemy(String name){
+		for(int i=0;i<getEnemyListSize();i++){
+			if(enemyList.get(i).getName().equals(name)){
+				enemyList.remove(enemyList.get(i));
+			}else{
+				System.out.println("no enemy from charmgr");
+			}
+		}
+	}
+	
+	public int getEnemyListSize(){
+		return enemyList.size();
 	}
 	
 	/**
@@ -123,17 +164,35 @@ public class CharacterManager {
 	 * @param index
 	 * @return
 	 */
-	public Character getEnemy(final int index){
-		return eList.get(index);
+	private Character enemy;
+	
+	public Character getEnemy(){
+		return enemy;
 	}
 	
-	/**
-	 * Fuegt einen Gegner in die List hinzu.
-	 * @param character
-	 */
-	public void addEnemy(final Character character){
-		eList.add(character);
+	
+	public void setEnemy(final Character character){
+		enemy = character;
 	}
+	
+	
+	public List<Character> getPlayerList(){
+		return playerList;
+	}
+	
+	public void savePlayerList(){
+		GameState.getInstance().setPlayers(playerList);
+	}
+	
+	
+	public void setSavedPlayers(){
+		int i=0;
+		for(Character player:GameState.getInstance().getSavedPlayers()){
+			addPlayer(player);
+			System.out.println("from loadState -> "+getPlayer(i++));
+		}
+	}
+	
 	
 
 	

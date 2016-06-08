@@ -14,7 +14,11 @@ public interface ICharacterDefs {
 	public static int NINJA = 3;
 	public static int SPIDERMAN = 4;
 	public static int ZOMBIE = 5;
-	public static int SKELETT = 6;
+	public static int GHOST = 6;
+	public static int MUMMY = 7;
+	public static int POT = 8;
+	public static int SLEIM = 9;
+	public static int DEMON = 10;
 
 	
 
@@ -28,8 +32,11 @@ public interface ICharacterDefs {
     public static String NAME_NINJA = "Ninja";
     public static String NAME_SPIDERMAN = "Spiderman";
     public static String NAME_ZOMBIE = "Zombie";
-    public static String NAME_SKELETT = "Skelett";
-
+    public static String NAME_GHOST = "Ghost";
+    public static String NAME_MUMMY = "Mummy";
+    public static String NAME_POT = "Pot";
+    public static String NAME_SLEIM = "Sleim";
+    public static String NAME_DEMON = "Demon";
 
 
 
@@ -42,7 +49,12 @@ public interface ICharacterDefs {
     	NINJA,
     	SPIDERMAN,
     	ZOMBIE,
-    	SKELETT
+    	GHOST,
+    	MUMMY,
+    	POT,
+    	SLEIM,
+    	DEMON
+    	
     };
     
     //Array fuer Charaktername
@@ -53,6 +65,10 @@ public interface ICharacterDefs {
     	NAME_NINJA,
     	NAME_SPIDERMAN,
     	NAME_ZOMBIE,
-    	NAME_SKELETT
+    	NAME_GHOST,
+    	NAME_MUMMY,
+    	NAME_POT,
+    	NAME_SLEIM,
+    	NAME_DEMON
     };
 }

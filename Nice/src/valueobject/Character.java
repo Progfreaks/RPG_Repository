@@ -27,9 +27,9 @@ public  class Character implements Serializable {
 		//Ob der Charakter ein Spieler ist.
 		private boolean isPlayer;
 		//Maximale Lebenspunkte.
-		private final int maxLife;
+		private  int maxLife;
 		//Maximale Manapunkte.
-		private final int maxMP;
+		private  int maxMP;
 		private int mp;
 		//Koordinate des Charakters.
 		private int x, y;
@@ -58,8 +58,8 @@ public  class Character implements Serializable {
 		this.skills = skills;
 		this.x = x;
 		this.y = y;
-		maxMP = mp;
-		maxLife = life;
+//	    maxMP = mp;
+//		maxLife = life;
 	}
 
 
@@ -78,6 +78,14 @@ public  class Character implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 		
+	}
+	
+	public void setMaxLife(int max){
+		maxLife = max;
+	}
+	
+	public void setMaxMP(int max){
+		maxMP = max;
 	}
 	/**
 	 * Getter-Methode fuer die Lebenspunkte des Charakters.

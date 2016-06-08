@@ -1,14 +1,15 @@
 package gui.events;
-import gui.creater.GuiGameConsole;
-import gui.creater.GuiManager;
+import gui.manager.GuiGameConsole;
+import gui.manager.GuiManager;
+import gui.manager.GuiMapHandler;
 import domain.DuD;
 
 
-public class GuiPickUpEvent extends GuiGameEvent {
+public class GuiPickUpEvent extends GuiGameEvent implements Runnable {
 	
 	private int x, y;
 	private DuD game;
-	private GuiManager guiMgr;
+	private GuiMapHandler mapHdr;
 		
 	
 	
@@ -16,19 +17,20 @@ public class GuiPickUpEvent extends GuiGameEvent {
 		this.x = x;
 		this.y = y;
 		game = DuD.getGame();
-		guiMgr = GuiManager.getInstance();
-		guiMgr.repaintButton(x, y);
+		mapHdr = GuiMapHandler.getInstance();
+		mapHdr.repaintButton(x, y);
 	}
 	
 	@Override
 	public void process(){
-		game.setIndicator(true);
-		GuiGameConsole.getInstance().endGoalMessage(game.getPlayer(0));
+		
+		new Thread(this).start();
 	}
 	
 	@Override
 	public void run() {
-		process();
+		//game.setIndicator(true);
+		GuiGameConsole.getInstance().endGoalMessage(game.getPlayer());
 		
 	}
 

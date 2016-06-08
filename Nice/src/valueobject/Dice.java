@@ -16,11 +16,17 @@ public final class Dice {
 	 * @return
 	 */
 	public static int getDiceNummer(){
-		Random random = new Random();
-		int diceNum = random.nextInt(5)+1;
-		//Verringert es ein bisschen, dass Augenzahl 1 kriegt.
-		if(diceNum == 1) diceNum = random.nextInt(4)+1;
+		int diceNum = getRandomNummer(6);
+		//Verringert, dass es Augenzahl 1 kriegt.
+		if(diceNum == 1) diceNum = getRandomNummer(5);
+		if(diceNum == 1) diceNum = getRandomNummer(4);
 		return diceNum;
+	}
+	
+	public static int getRandomNummer(int maxNummer){
+		Random random = new Random();
+		
+		return random.nextInt(maxNummer-1)+1;
 	}
 
 

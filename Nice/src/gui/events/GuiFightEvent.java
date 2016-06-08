@@ -1,49 +1,112 @@
 package gui.events;
 
-import gui.creater.GuiGameConsole;
-import gui.creater.GuiManager;
-import persistence.character.CharacterDataMap;
+import gui.manager.GuiGameConsole;
+import gui.manager.GuiManager;
+import gui.manager.GuiMapHandler;
+import persistence.character.ICharacterDefs;
 import valueobject.Character;
-import domain.CharacterManager;
+import valueobject.IGameElements;
+import valueobject.RoundCount;
 import domain.DuD;
 
 
-public class GuiFightEvent extends GuiGameEvent {
-	
+public class GuiFightEvent extends GuiGameEvent implements Runnable,IGameElements,ICharacterDefs{
+
 	private DuD game;
-	Character player;
-	Character enemy;
-	CharacterManager cm;
-	private int index = 0;
-	private int xf, yf;
-	GuiManager guiMgr;
-	
+	private GuiMapHandler mapHdr;
+	private int clickedElement;
+	private GuiGameConsole console;
+	private int currentPlayerIndex;
+
 	public GuiFightEvent(int x, int y){
-		this.xf = x;
-		this.yf = y;
 		game = DuD.getGame();
-		guiMgr = GuiManager.getInstance();
-		guiMgr.repaintButton(x, y);
-		
+		mapHdr = GuiMapHandler.getInstance();
+		console = GuiGameConsole.getInstance();
+		clickedElement = game.getBoardElement(x, y);
+		currentPlayerIndex = game.getCurrentPlayerIndex();
+		refreshMapButtonPanel(x, y);
 	}
 	
+	private void refreshMapButtonPanel(int x,int y){
+		mapHdr.repaintButton(x, y);
+		mapHdr.removeFightActionCall(x, y);
+		mapHdr.setMoveActionCall(x, y);
+	}
 	@Override
 	public void process() {
-		
-		guiMgr.repaintButton(xf, yf);
-		player = game.getPlayer(0);
-	    CharacterDataMap map = CharacterDataMap.getInstance();
-		Character enemy = game.createEnemy(map.getCharacterData(5));
-		game.addEnemy(enemy);
-		this.index++;
-		GuiGameConsole console = GuiGameConsole.getInstance();
-		console.roundMessage(player, enemy);
+//		new Thread(this).start();
+		run();
 	}
 
 	@Override
 	public void run() {
-		process();
-		
+		Character enemy = getEnemy();
+		console.encounterEnemy();
+		GuiManager.getInstance().createBattlePanel(enemy);
+		startBattle(enemy);
+		checkResult(enemy);
+		resetCurrentPlayerIndex();
+		GuiManager.getInstance().createMainDungeonPanel();
+		console.diceForMove(game.getNextPlayer(),RoundCount.getRoundCount());
+	}
+
+	private void resetCurrentPlayerIndex(){
+		game.setCurrentPlayerIndex(currentPlayerIndex);
+		game.increaseCurrentPlayerIndex();
+	}
+
+	private Character getEnemy(){
+
+		Character enemy = null;
+		System.out.println("clicked element"+clickedElement);
+		if(!game.isAllEnemyDead()){
+			switch (clickedElement) {
+			case ZOMBIE_ELEMENT:
+				enemy = game.getEnemy("Zombie");
+				System.out.println("enemy name"+enemy.getName());
+				break;
+			case GHOST_ELEMENT:
+				enemy = game.getEnemy("Ghost");
+				break;
+			case MUMMY_ELEMENT:
+				enemy = game.getEnemy("Mummy");
+				System.out.println("enemy name"+enemy.getName());
+				break;
+			case POT_ELEMENT:
+				enemy = game.getEnemy("Pot");
+				break;
+			case SLEIM_ELEMENT:
+				enemy = game.getEnemy("Sleim");
+				break;
+			default:
+				break;
+			}
+		}else{
+			enemy = game.createEnemy(DEMON);
+		}
+		return enemy;
+	}
+
+	private void startBattle(Character enemy){
+		Character player = game.getPlayer();
+		System.out.println("start battle"+player.getName());
+		console.battleMsg(player, enemy);
+		while(enemy.isAlive() && !game.isAllPlayerDead()){
+			player = game.getNextPlayer();
+			console.battleMsg(player, enemy);
+		}
+	}
+
+	private void checkResult(Character enemy){
+		if(!enemy.isAlive()){
+		}else if(game.isAllPlayerDead()){
+			//game over TODO
+			console.append("game over...");
+		}
+		if(game.isAllEnemyDead()){
+			mapHdr.placeBoss();//end gegner platieren
+			console.appendln("Endgegner ist aufgetreten!!!!!!\n");
+		}
 	}
 
 }
